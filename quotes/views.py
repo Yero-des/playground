@@ -36,5 +36,7 @@ def days_week_with_number(request, day):
             if key == day:
                 quote_text = value
                 return HttpResponse(quote_text)
-    except KeyError:
-        return HttpResponseNotFound("No hay frases para este dia") 
+            
+    except KeyError: return HttpResponseNotFound("No hay frases para este dia") 
+    except Exception as error: print(type(error))
+    
