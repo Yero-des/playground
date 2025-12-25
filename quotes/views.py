@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 
 # Create your views here.
 def index(request):
@@ -31,12 +31,8 @@ def days_week(request, day):
 
 def days_week_with_number(request, day):
     
-    try:
-        for key, value in enumerate(days_of_week.values()):
-            if key == day:
-                quote_text = value
-                return HttpResponse(quote_text)
-            
-    except KeyError: return HttpResponseNotFound("No hay frases para este dia") 
-    except Exception as error: print(type(error))
-    
+    days = list(days_of_week.keys())
+    if day > len(days) or day == 0:
+        return HttpResponseNotFound("El dia no existe")
+    redirect_day = days[day-1]
+    return HttpResponseRedirect(f"/quotes/{redirect_day}")
