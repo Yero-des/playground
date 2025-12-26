@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}{{day|upper}}{% endblock title %}
+
+{% block content %}
+
+<h1>{{day|capfirst}}</h1>
+<h2>This is the quote of this weekday:</h2>
+<p>{{quote_text}}</p>
+<a href="{% url "index" %}">Regresar al inicio</a>
+
+{% endblock content %}

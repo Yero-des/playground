@@ -1,5 +1,6 @@
 # from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse
 
 days_of_week = {
@@ -14,16 +15,13 @@ days_of_week = {
 
 # Create your views here.
 def index(request):
-    list_items = ""
+    
     days = list(days_of_week.keys()) # [monday, tuesday...]
     
-    for day in days:
-        day_path = reverse('day-quote', args=[day])
-        list_items += f"<li><a href='{day_path}'>{day}</a></li>"
-    
-    response_html = f"<ul>{list_items}</ul>"
-    # print(response_html)
-    return HttpResponse(response_html)
+    context = {
+        "days": days,
+    }
+    return render(request, 'quotes/index.html', context)
 
 
 def days_week_with_number(request, day):
@@ -41,11 +39,13 @@ def days_week(request, day):
     
     try:
         quote_text = days_of_week[day]
-        return HttpResponse(quote_text)
+        
+        context = {
+            "quote_text": quote_text,
+            "day": day,
+        }
+        
+        return render(request, 'quotes/day_quote.html', context)  
+        
     except KeyError:
         return HttpResponseNotFound("No hay frases para este dia")    
-    
-def sum_of_two_numbers(request, number1, number2):
-    
-    result = number1 + number2
-    return HttpResponse(f"The sumatory of the number {number1} and the number {number2} is: {result}")

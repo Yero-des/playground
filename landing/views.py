@@ -41,7 +41,7 @@ def home(request):
         "name": dev["name"],
         "today": today,
         "last_name": dev["last_name"],
-        "stack": dev["stack"]
+        "stack": dev["stack"],
     }
     return render(request, "landing/landing.html", context)
 
