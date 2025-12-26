@@ -8,23 +8,28 @@ dev = {
     "stack": [
         {
             "id": "python",
-            "name": "Python"
+            "name": "Python",
+            "description": "This is a short description of python."
         },
         {
             "id": "django",
-            "name": "Django"
+            "name": "Django",
+            "description": "This is a funny description about django."
         },
         {
             "id": "golang",
-            "name": "Golang"
+            "name": "Golang",
+            "description": "This is a large description about golang"
         },
         {
             "id": "php",
-            "name": "PHP"
+            "name": "PHP",
+            "description": "This is a description about php."
         },
         {
             "id": "js",
-            "name": "JS"
+            "name": "JS",
+            "description": "This is a messy description of js."
         }
     ]
 }
@@ -40,18 +45,20 @@ def home(request):
     }
     return render(request, "landing/landing.html", context)
 
-def is_tool_included(currency_tool):
-    for tool in dev["stack"]:
-        if tool["id"] == currency_tool:
-            return True
-    return False
-
+def get_tool(tool_id):
+    return next(
+        (tool for tool in dev["stack"] if tool["id"] == tool_id),
+        None
+    )
+    
 def stack_detail(request, tool):
 
-    if is_tool_included(tool):
-        context = {
-            "tool": tool
-        }
-        return render(request, "landing/stack_detail.html", context)
-    else:
+    tool_data = get_tool(tool)
+    
+    if tool_data == None:
         return HttpResponseNotFound("No se encontro la herramienta")
+        
+    context = {
+        "tool": tool_data
+    }
+    return render(request, "landing/stack_detail.html", context)

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{tool|upper}}</title>
+    <title>{{tool.name|upper}}</title>
 </head>
 <body>
-    <h1>Tecnologia: {{tool}}</h1>
-    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima rerum magnam nam ut non, ipsam iste odio suscipit, eos molestias inventore voluptatibus labore harum ipsum, quas veritatis unde vel aliquid?</p>
+    <h1>Tecnologia: {{tool.name}}</h1>
+    <p>{{tool.description}}</p>
     <a href='{% url "home" %}'>Volver al inicio</a>
 </body>
 </html>
