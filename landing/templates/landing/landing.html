@@ -1,11 +1,27 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hola mundo</title>
 </head>
 <body>
-    <h1>Hello world</h1>
+
+    {% if name == "Yeromi" %}
+        <h1>Hi Yeromi, you're a great person</h1>
+    {% elif name == "Ricardo" %}
+        <h1>Hello Fernangod</h1>
+    {% else %}
+        <h1>Hello invitado</h1>
+    {% endif %}
+
+    <h2>Fecha: {{today|date:"d/m/Y"}}</h2>
+    <h2>My name is {{name|upper}} {{last_name|upper}} and I have knowloged in {{languages|length}} programing languages:</h2>
+    
+    <ul>
+        {% for language in languages %}
+        <li>{{language|upper}}</li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
