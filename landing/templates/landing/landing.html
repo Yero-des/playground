@@ -16,11 +16,13 @@
     {% endif %}
 
     <h2>Fecha: {{today|date:"d/m/Y"}}</h2>
-    <h2>My name is {{name|upper}} {{last_name|upper}} and I have knowloged in {{languages|length}} programing languages:</h2>
+    <h2>My name is {{name|upper}} {{last_name|upper}} and I have knowloged in {{stack|length}} programing languages:</h2>
     
     <ul>
-        {% for language in languages %}
-        <li>{{language|upper}}</li>
+        {% for tool in stack %}
+            <li><a href='{% url "stack" tool=tool.id %}'>{{tool.name}}</a></li>
+        {% empty %}
+            <li>No hay tecnologias disponibles</li>
         {% endfor %}
     </ul>
 </body>
