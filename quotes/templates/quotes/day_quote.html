@@ -1,12 +1,17 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}{{day|upper}}{% endblock title %}
+
+{% block page_style %}
+    <link rel="stylesheet" href="{% static "quotes/css/quotes_styles.css" %}">
+{% endblock page_style %}
 
 {% block content %}
 
 <h1>{{day|capfirst}}</h1>
 <h2>This is the quote of this weekday:</h2>
-<p>{{quote_text}}</p>
+<p class="quote_text">{{quote_text}}</p>
 <a href="{% url "index" %}">Regresar al inicio</a>
 
 {% endblock content %}

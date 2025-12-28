@@ -1,5 +1,5 @@
 # from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse
 
@@ -38,6 +38,7 @@ def days_week_with_number(request, day):
 def days_week(request, day):
     
     try:
+        
         quote_text = days_of_week[day]
         
         context = {
@@ -48,4 +49,4 @@ def days_week(request, day):
         return render(request, 'quotes/day_quote.html', context)  
         
     except KeyError:
-        return HttpResponseNotFound("No hay frases para este dia")    
+        raise Http404()

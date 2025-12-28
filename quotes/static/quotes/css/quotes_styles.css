@@ -1,0 +1,19 @@
+ul {
+    list-style: none;
+    font-size: 1.5rem;
+    text-transform: capitalize;
+}
+
+h1, h2, h3 {
+    color: chocolate;
+}
+
+header, .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.quote_text {
+    font-style: italic;
+}
