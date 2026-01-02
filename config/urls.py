@@ -5,5 +5,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('messages/', include("quotes.urls")),
     path('landings/', include("landing.urls")),
-    path('calculator/', include("calculator.urls"))
+    path('calculator/', include("calculator.urls")),
+    path("library/", include('library.urls'))
 ]

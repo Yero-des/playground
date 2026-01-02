@@ -18,10 +18,9 @@ def index(request):
     
     days = list(days_of_week.keys()) # [monday, tuesday...]
     
-    context = {
-        "days": days,
-    }
-    return render(request, 'quotes/index.html', context)
+    return render(request, 'quotes/index.html', {
+        "days": days
+    })
 
 
 def days_week_with_number(request, day):
