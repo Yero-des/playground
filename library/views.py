@@ -6,8 +6,10 @@ from library.models import Author, Book
 def index(request):
     
     books = Book.objects.all()
+    authors = Author.objects.all()
     
     return render(request, 'library/index.html', {
         'name': 'Yeromi Zavala Castillo',
-        'books': books
+        'books': books,
+        'authors': authors
     })

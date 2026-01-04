@@ -10,5 +10,25 @@
 {% block content %}
 
     <h1 class="title">Funciona</h1>
+    <h3>Authors: </h3>
+    <ul>
+
+        {% for author in authors %} 
+    
+            <li>{{ author.name }} => {{ author.birth_date }}
+                <ul>
+                    {% for book in author.books.all %}
+                        <li>{{ book.title }} => {{ book.publication_date}}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+
+        {% empty %}
+
+            <li>No se encontraron autores</li>
+
+        {% endfor %}
+
+    </ul>
 
 {% endblock content %}
