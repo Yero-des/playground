@@ -15,10 +15,17 @@
 
         {% for author in authors %} 
     
-            <li>{{ author.name }} => {{ author.birth_date }}
+            <li>{{ author.name }}
                 <ul>
+                    <li>Birth date: {{ author.birth_date }}</li>
                     {% for book in author.books.all %}
-                        <li>{{ book.title }} => {{ book.publication_date}}</li>
+                        <li>{{ book.title }}
+                            <ul>
+                                <li>Publication date: {{ book.publication_date }}</li>
+                                <li>Pages: {{ book.pages }}</li>
+                                <li>Isbn: {{ book.isbn }}</li>
+                            </ul>
+                        </li>
                     {% endfor %}
                 </ul>
             </li>
