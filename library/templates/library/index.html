@@ -1,63 +1,59 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Library{% endblock title %}
+{% block title %}
+  Library
+{% endblock %}
 
 {% block page_style %}
-    <link rel="stylesheet" href="{% static "library/css/library_styles.css" %}">
-{% endblock page_style %}
+  <link rel="stylesheet" href="{% static 'library/css/library_styles.css' %}" />
+{% endblock %}
 
 {% block content %}
-    <h1 class="title">Funciona</h1>
-    <h3>Total Books: {{ num_libros }}</h3>
-    <h3>Sum of Pages of Total Books: {{ total_sum_pages_libros }}</h3>
-    <h3>Average of Page of Total Books: {{ avg_pages_libros }}</h3>
-    <h3>Authors: </h3>
-    <ul>
+  <h1 class="title">Funciona</h1>
+  <h3>Total Books: {{ num_libros }}</h3>
+  <h3>Sum of Pages of Total Books: {{ total_sum_pages_libros }}</h3>
+  <h3>Average of Page of Total Books: {{ avg_pages_libros }}</h3>
+  <h3>Authors:</h3>
+  <ul>
+    {% for author in authors %}
+      <li>
+        {{ author.name|random }}
+        <ul>
+          <li>Birth Date: {{ author.birth_date }}</li>
+          <li>Number of Books: {{ author.num_books }}</li>
+          <li>Total pages books: {{ author.total_pages_books }}</li>
 
-        {% for author in authors %} 
-    
-            <li>{{ author.name }}
-                <ul>
-                    <li>Birth Date: {{ author.birth_date }}</li>
-                    <li>Number of Books: {{ author.num_books }}</li>
-                    <li>Total pages books: {{ author.total_pages_books }}</li>
+          <ul>
+            {% for book in author.books.all %}
+              <li>
+                {{ book.title }}
 
+                {% if book.detail %}
+                  <details>
+                    <summary>Details:</summary>
                     <ul>
-                        {% for book in author.books.all %}
-                        <li>{{ book.title }}
-
-                            {% if book.detail %}
-                                <details>
-                                    <summary>Details:</summary>
-                                    <ul>
-                                        <li>Summary: {{ book.detail.summary }}</li>
-                                        <li>Language: {{ book.detail.language}}</li>
-                                        <li>
-                                            <img src="{{ book.detail.cover_url }}" alt="{{ book.title }} portada de libro">
-                                        </li>
-                                    </ul>
-                                </details>
-                            {% endif %}
-
-                            <ul>
-                                <li>Publication Date: {{ book.publication_date }}</li>
-                                <li>Pages: {{ book.pages }}</li>
-                                <li>Isbn: {{ book.isbn }}</li>
-                            </ul>
-                        </li>
-                        {% endfor %}
+                      <li>Summary: {{ book.detail.summary }}</li>
+                      <li>Language: {{ book.detail.language }}</li>
+                      <li>
+                        <img src="{{ book.detail.cover_url }}" alt="{{ book.title }} portada de libro" />
+                      </li>
                     </ul>
+                  </details>
+                {% endif %}
 
+                <ul>
+                  <li>Publication Date: {{ book.publication_date }}</li>
+                  <li>Pages: {{ book.pages }}</li>
+                  <li>Isbn: {{ book.isbn }}</li>
                 </ul>
-            </li>
-
-        {% empty %}
-
-            <li>No se encontraron autores</li>
-
-        {% endfor %}
-
-    </ul>
-
-{% endblock content %}
+              </li>
+            {% endfor %}
+          </ul>
+        </ul>
+      </li>
+    {% empty %}
+      <li>No se encontraron autores</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
