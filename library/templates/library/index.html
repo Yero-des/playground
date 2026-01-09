@@ -8,7 +8,6 @@
 {% endblock page_style %}
 
 {% block content %}
-
     <h1 class="title">Funciona</h1>
     <h3>Total Books: {{ num_libros }}</h3>
     <h3>Sum of Pages of Total Books: {{ total_sum_pages_libros }}</h3>
@@ -27,6 +26,20 @@
                     <ul>
                         {% for book in author.books.all %}
                         <li>{{ book.title }}
+
+                            {% if book.detail %}
+                                <details>
+                                    <summary>Details:</summary>
+                                    <ul>
+                                        <li>Summary: {{ book.detail.summary }}</li>
+                                        <li>Language: {{ book.detail.language}}</li>
+                                        <li>
+                                            <img src="{{ book.detail.cover_url }}" alt="{{ book.title }} portada de libro">
+                                        </li>
+                                    </ul>
+                                </details>
+                            {% endif %}
+
                             <ul>
                                 <li>Publication Date: {{ book.publication_date }}</li>
                                 <li>Pages: {{ book.pages }}</li>
