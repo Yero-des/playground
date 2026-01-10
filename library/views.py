@@ -30,4 +30,3 @@ def index(request):
         
     except IntegrityError:        
         return HttpResponseBadRequest("Hubo un error inesperado")
-    
