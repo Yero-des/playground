@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-  <h1 class="title">Funciona</h1>
+  <h1 class="title">Library</h1>
   <h3>Total Books: {{ num_libros }}</h3>
   <h3>Sum of Pages of Total Books: {{ total_sum_pages_libros }}</h3>
   <h3>Average of Page of Total Books: {{ avg_pages_libros }}</h3>
@@ -18,7 +18,7 @@
   <ul>
     {% for author in authors %}
       <li>
-        {{ author.name|random }}
+        {{ author.name }}
         <ul>
           <li>Birth Date: {{ author.birth_date }}</li>
           <li>Number of Books: {{ author.num_books }}</li>
@@ -42,9 +42,43 @@
                   </details>
                 {% endif %}
 
+                {% if book.reviews.exists %}
+                <details>
+                  <summary>Reviews:</summary>             
+                  <ul>
+                    {% for review in book.reviews.all %}                    
+                      <li>[{{ review.created_at|date:"d/m/y"}}] {{ review.user.username }} ({{ review.rating }}/5): {{ review.text }}</li>
+                    {% endfor %}
+                  </ul>
+                </details>
+                {% endif %}
+
+                {% if book.loans.exists %}
+                <details>
+                  <summary>Loans:</summary>             
+                  <ul>
+                    {% for loan in book.loans.all %}                    
+                      <li class="{% if not loan.is_returned %}is_not_returned{% endif %}">
+                        [{{ loan.loan_date|date:"d/m/Y H:s"}}]
+                        {% if loan.is_returned %}[{{ loan.return_date|date:"d/m/Y H:s"}}] {% endif %}
+                        {{ loan.user.username }}: 
+                        {% if loan.is_returned %}Returned{% else %}Borrowed{% endif %}
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </details>
+                {% endif %}
+
                 <ul>
                   <li>Publication Date: {{ book.publication_date }}</li>
                   <li>Pages: {{ book.pages }}</li>
+                  {% if book.genres.exists %}
+                    <li>Genres: 
+                      {% for genre in book.genres.all %}
+                        <a href="#">{{genre.name}}</a>{% if not forloop.last %}, {% endif %}
+                      {% endfor %}
+                    </li>
+                  {% endif %}
                   <li>Isbn: {{ book.isbn }}</li>
                 </ul>
               </li>

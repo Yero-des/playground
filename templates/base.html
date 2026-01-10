@@ -3,16 +3,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock title %}</title>
-    <link rel="stylesheet" href="{% static "css/style.css" %}">
-    {% block page_style %}{% endblock page_style %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{% endblock title %}</title>
+  <link rel="stylesheet" href="{% static "css/style.css" %}">
+  {% block page_style %}{% endblock page_style %}
 </head>
 <body>
-    {% include "./includes/header.html" %}
-    <section class="container">
-        {% block content %}{% endblock content %}
-    </section>
+  {% include "./includes/header.html" %}
+  <section class="container">
+    {% block content %}{% endblock content %}
+  </section>
 </body>
 </html>

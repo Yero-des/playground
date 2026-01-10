@@ -11,3 +11,7 @@ img {
     color: red;
     cursor: pointer;
 }
+
+.is_not_returned {
+    color: #c11818;
+}
