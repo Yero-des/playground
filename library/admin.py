@@ -37,7 +37,8 @@ class BookDetailInline(admin.StackedInline):
 @admin.register(User)
 class CustomUserAdmin(BaseUserAdmin):
     inlines = [LoanInline]
-    list_display = ('username', 'email')
+    list_display = ('username', 'email', 'date_joined', 'is_superuser')
+    ordering = ['-date_joined']
 
 @admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
@@ -71,6 +72,12 @@ class BookAdmin(admin.ModelAdmin):
             "classes": ('collapse', )
         }),
     )
+    
+    def has_add_permission(self, request):
+        return request.user.is_superuser
+    
+    def has_change_permission(self, request, obj = None):
+        return request.user.is_staff
     
     
 @admin.register(Loan)
