@@ -11,6 +11,8 @@
 </head>
 <body>
   {% include "./includes/header.html" %}
+  {% block page_img %}{% endblock page_img %}
+  
   <section class="container">
     {% block content %}{% endblock content %}
   </section>

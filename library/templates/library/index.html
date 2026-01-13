@@ -9,12 +9,19 @@
   <link rel="stylesheet" href="{% static 'library/css/library_styles.css' %}" />
 {% endblock %}
 
+{% block page_img %}
+  <div class="container-fluid mb-3 p-0 overflow-hidden border-bottom-gray" style="height: 5rem;">
+    <img class="object-fit-cover w-100" src="{% static "library/img/biblioteca.jpg" %}" alt="Imagen de una biblioteca">
+  </div>
+{% endblock page_img %}
+
 {% block content %}
-  <h1 class="title">Library</h1>
+  <h1 class="title">
+    Library
+  </h1>
   <h3>Total Books: {{ num_libros }}</h3>
-  <button class="btn btn-primary">Agregar nuevo libro</button>
-  <h3>Sum of Pages of Total Books: {{ total_sum_pages_libros }}</h3>
-  <h3>Average of Page of Total Books: {{ avg_pages_libros }}</h3>
+  <h3><span class="indigo-text">Sum of Pages</span> of Total Books: {{ total_sum_pages_libros }}</h3>
+  <h3><span class="indigo-text">Average of Page</span> of Total Books: {{ avg_pages_libros }}</h3>
   <h3>Authors:</h3>
   <ul>
     {% for author in authors %}

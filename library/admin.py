@@ -8,6 +8,10 @@ from datetime import datetime
 
 User = get_user_model()
 
+admin.site.site_header = "Administrador MiniLibrary"
+admin.site.site_title = "Minilibrary panel"
+admin.site.index_title = "Bienvenidos al panel de minilibrary"
+
 @admin.action(description="Marcar préstamos como devueltos")
 def mark_as_returned(modeladmin, request, queryset):
     queryset.update(is_returned=True, return_date=datetime.now())

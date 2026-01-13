@@ -1,0 +1,17 @@
+@import "../../libs/bootstrap/scss/bootstrap";
+
+.indigo-text {
+    color: $indigo-600;
+}
+
+.navbar {
+    background-color: $indigo-600;
+}
+
+.border-bottom-gray {
+    border-bottom: 5px solid $gray-500;
+}
+
+summary {
+    color: $blue-700;
+}
