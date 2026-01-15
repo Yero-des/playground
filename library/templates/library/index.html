@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block page_icon %}
+  <link rel="shortcut icon" href="{% static "icons/book.ico" %}" type="image/x-icon">
+{% endblock page_icon %}
+
 {% block title %}
   Library
 {% endblock %}
@@ -22,6 +26,17 @@
   <h3>Total Books: {{ num_libros }}</h3>
   <h3><span class="indigo-text">Sum of Pages</span> of Total Books: {{ total_sum_pages_libros }}</h3>
   <h3><span class="indigo-text">Average of Page</span> of Total Books: {{ avg_pages_libros }}</h3>
+
+
+  <div class="card" style="width: 18rem;">
+    <img src="..." class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">Card title</h5>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+      <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+  </div>
+
   <h3>Authors:</h3>
   <ul>
     {% for author in authors %}
@@ -30,7 +45,7 @@
         <ul>
           <li>Birth Date: {{ author.birth_date }}</li>
           <li>Number of Books: {{ author.num_books }}</li>
-          <li>Total pages books: {{ author.total_pages_books }}</li>          
+          <li>Total pages books: {{ author.total_pages_books }}</li>
 
           <details>
             <summary>Libros:</summary>
@@ -51,29 +66,29 @@
                     </details>
                   {% endif %}
                   {% if book.reviews.exists %}
-                  <details>
-                    <summary>Reviews:</summary>
-                    <ul>
-                      {% for review in book.reviews.all %}
-                        <li>[{{ review.created_at|date:"d/m/y"}}] {{ review.user.username }} ({{ review.rating }}/5): {{ review.text }}</li>
-                      {% endfor %}
-                    </ul>
-                  </details>
+                    <details>
+                      <summary>Reviews:</summary>
+                      <ul>
+                        {% for review in book.reviews.all %}
+                          <li>[{{ review.created_at|date:"d/m/y"}}] {{ review.user.username }} ({{ review.rating }}/5): {{ review.text }}</li>
+                        {% endfor %}
+                      </ul>
+                    </details>
                   {% endif %}
                   {% if book.loans.exists %}
-                  <details>
-                    <summary>Loans:</summary>
-                    <ul>
-                      {% for loan in book.loans.all %}
-                        <li class="{% if not loan.is_returned %}is_not_returned{% endif %}">
-                          [{{ loan.loan_date|date:"d/m/Y H:s"}}]
-                          {% if loan.is_returned %}[{{ loan.return_date|date:"d/m/Y H:s"}}] {% endif %}
-                          {{ loan.user.username }}:
-                          {% if loan.is_returned %}Returned{% else %}Borrowed{% endif %}
-                        </li>
-                      {% endfor %}
-                    </ul>
-                  </details>
+                    <details>
+                      <summary>Loans:</summary>
+                      <ul>
+                        {% for loan in book.loans.all %}
+                          <li class="{% if not loan.is_returned %}is_not_returned{% endif %}">
+                            [{{ loan.loan_date|date:"d/m/Y H:s"}}]
+                            {% if loan.is_returned %}[{{ loan.return_date|date:"d/m/Y H:s"}}] {% endif %}
+                            {{ loan.user.username }}:
+                            {% if loan.is_returned %}Returned{% else %}Borrowed{% endif %}
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </details>
                   {% endif %}
                   <ul>
                     <li>Publication Date: {{ book.publication_date }}</li>

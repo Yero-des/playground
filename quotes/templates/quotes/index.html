@@ -12,12 +12,12 @@
 {% block content %}
   {% include './includes/partial.html' %}
 
-  <h1>Days of week</h1>
+  <h1 class="indigo-text">Days of week</h1>
   <p>Please select a day of week to see your phrase</p>
   <ul>
     {% for day in days %}
-      <li>
-        <a href="{% url 'day-quote' day %}">{{ day }}</a>
+      <li class="hover-red">
+        <a href="{% url 'day-quote' day %}" class="indigo-text hover-red">{{ day }}</a>
       </li>
     {% endfor %}
   </ul>
