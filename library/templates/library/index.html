@@ -86,13 +86,19 @@
 
         <div class="col">
           <div class="card shadow overflow-hidden rounded-3">
-            <header class="overflow-hidden bg-secondary" style="height: 15rem;">
-              <img src="{% static "library/img/cover-not-found.jpg" %}" class="card-img-top object-fit-contain" alt="...">
+            <header class="overflow-hidden bg-secondary" style="height: 15rem;">              
+              <img
+                src="{% if book.detail and book.detail.cover_url != "" %}{{ book.detail.cover_url }}{% else %}{% static "library/img/cover-not-found.jpg" %}{% endif %}"
+                class="card-img-top object-fit-contain" alt="...">
             </header>
             <div class="card-body">
               <h5 class="card-title text-truncate text-primary" title="{{ book.title }}">{{ book.title }}</h5>
               <h6 class="card-subtitle text-secondary" title="{{ book.author.name }}">{{ book.author.name }}</h6>
-              <p class="card-text mb-2">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+              
+              {% with summary=book.detail.summary|default:"Without description" %}
+                <p class="card-text mb-2 phrase-truncate-4" title="{{ summary }}">{{ summary }}</p>
+              {% endwith %}
+              
               <p class="card-text mb-2"><span class="text-secondary">Publication Date:</span> {{ book.publication_date|date:"d/m/Y" }}</p>
               <p class="card-text mb-2"><span class="text-secondary">Pages:</span> {{ book.pages }}</p>
               <a href="#" class="btn btn-primary">Go somewhere</a>

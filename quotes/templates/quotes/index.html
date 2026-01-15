@@ -10,17 +10,19 @@
 {% endblock %}
 
 {% block content %}
-  {% include './includes/partial.html' %}
 
-  <h1 class="indigo-text">Days of week</h1>
-  <p>Please select a day of week to see your phrase</p>
-  <ul>
-    {% for day in days %}
-      <li class="hover-red">
-        <a href="{% url 'day-quote' day %}" class="indigo-text hover-red">{{ day }}</a>
-      </li>
-    {% endfor %}
-  </ul>
+  <div class="container mt-3">
+    {% include './includes/partial.html' %}
+    <h1 class="primary-text">Days of week</h1>
+    <p>Please select a day of week to see your phrase</p>
+    <ul>
+      {% for day in days %}
+        <li class="hover-red">
+          <a href="{% url 'day-quote' day %}" class="primary-text hover-red">{{ day }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+    {% include './includes/endpartial.html' with days=days name='Yeromi' %}
+  </div>
 
-  {% include './includes/endpartial.html' with days=days name='Yeromi' %}
 {% endblock %}

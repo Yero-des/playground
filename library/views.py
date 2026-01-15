@@ -35,8 +35,6 @@ def index(request):
         if "page" in query_params:
             query_params.pop('page')
         
-        print(query_params)
-        
         query_string = query_params.urlencode()
         
         return render(request, 'library/index.html', {

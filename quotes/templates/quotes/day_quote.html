@@ -9,9 +9,11 @@
 
 {% block content %}
 
-    <h1>{{day|capfirst}}</h1>
-    <h2>This is the quote of this weekday:</h2>
-    <p class="quote_text">{{quote_text}}</p>
-    <a href="{% url "index" %}">Regresar al inicio</a>
+    <div class="container mt-3">
+        <h1>{{day|capfirst}}</h1>
+        <h2>This is the quote of this weekday:</h2>
+        <p class="quote_text">{{quote_text}}</p>
+        <a href="{% url "index" %}">Regresar al inicio</a>
+    </div>
 
 {% endblock content %}

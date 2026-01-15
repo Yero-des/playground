@@ -13357,14 +13357,6 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
-.indigo-text {
-  color: rgb(81.6, 12.8, 193.6);
-}
-
-.navbar {
-  background-color: rgb(81.6, 12.8, 193.6);
-}
-
 .border-bottom-gray {
   border-bottom: 5px solid #adb5bd;
 }
