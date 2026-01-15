@@ -3,7 +3,7 @@
 {% block title %}Presentación{% endblock title %}
 
 {% block content %}
-    
+
     {% if name == "Yeromi" %}
         <h1>Hi Yeromi, you're a great person</h1>
     {% elif name == "Ricardo" %}
@@ -14,7 +14,7 @@
 
     <h2>Fecha: {{today|date:"d/m/Y"}}</h2>
     <h2>My name is {{name|upper}} {{last_name|upper}} and I have knowloged in {{stack|length}} programing languages:</h2>
-    
+
     <ul>
         {% for tool in stack %}
             <li><a href='{% url "stack" tool=tool.id %}'>{{tool.name}}</a></li>

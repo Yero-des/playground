@@ -91,11 +91,11 @@
         const shadowRoot = document.getElementById('shadow').attachShadow({ mode: 'open' })
         shadowRoot.innerHTML =
           '<button id="firstShadowTooltip" type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top in a shadow dom">' +
-          '  Tooltip on top in a shadow dom' +
-          '</button>' +
-          '<button id="secondShadowTooltip" type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top in a shadow dom with container option">' +
-          '  Tooltip on top in a shadow dom' +
-          '</button>'
+        '  Tooltip on top in a shadow dom' +
+        '</button>' +
+        '<button id="secondShadowTooltip" type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top in a shadow dom with container option">' +
+        '  Tooltip on top in a shadow dom' +
+        '</button>'
 
         new bootstrap.Tooltip(shadowRoot.firstChild)
         new bootstrap.Tooltip(shadowRoot.getElementById('secondShadowTooltip'), {

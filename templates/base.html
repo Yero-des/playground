@@ -2,20 +2,20 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  {% block page_icon %}{% endblock page_icon %}
-  <title>{% block title %}{% endblock title %}</title>
-  <link rel="stylesheet" href="{% static "css/styles.css" %}">
-  {% block page_style %}{% endblock page_style %}
-</head>
-<body>
-  {% include "./includes/header.html" %}
-  {% block page_img %}{% endblock page_img %}
-  
-  <section class="container">
-    {% block content %}{% endblock content %}
-  </section>
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block page_icon %}{% endblock page_icon %}
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static "css/styles.css" %}">
+    {% block page_style %}{% endblock page_style %}
+  </head>
+  <body>
+    {% include "./includes/header.html" %}
+    {% block page_img %}{% endblock page_img %}
+
+    <section class="container">
+      {% block content %}{% endblock content %}
+    </section>
+  </body>
 </html>
