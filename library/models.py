@@ -40,6 +40,12 @@ class Book(models.Model):
             return self.detail.cover_url
         return static('library/img/cover-not-found.jpg')
     
+    @property
+    def summary(self):
+        if hasattr(self, 'detail') and self.detail.summary:
+            return self.detail.summary
+        return "Aun no se escribe una descripción para este libro"
+    
 class BookDetail(models.Model):
     summary = models.TextField()
     cover_url = models.CharField()
