@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_icon %}
+  <link rel="shortcut icon" href="{% static "icons/book.ico" %}" type="image/x-icon">
+{% endblock page_icon %}
+
+{% block title %}
+  Library
+{% endblock %}
+
+{% block page_style %}
+  <link rel="stylesheet" href="{% static 'library/css/library_styles.css' %}" />
+{% endblock %}
+
+{% block content %}
+
+  {% include "includes/page_img.html" %}
+
+  <div class="container mb-5 p-0">
+    <div class="row">
+      <div class="col-4">
+        <div class="overflow-hidden" style="height: 10rem;">
+          <img src="{{ book.cover }}" class="object-fit-contain h-100" alt="Imagen del libro {{ book.title }}">
+        </div>
+      </div>
+    </div>
+    <h1 class="title text-primary">{{ book.title }}</h1>
+    <h2 class="text-secondary">{{ book.author.name }}</h2>
+    <p>{{ book.genres.all|join:", " }}</p>
+
+    {% comment %} Recomendaciones {% endcomment %}
+    <h3 class="text-secondary-emphasis">Recomendaciones</h3>
+    <ul class="list-group list-group-flush">
+
+      {% for recommendation in book.recomendations.all %}
+        <li class="list-group-item">[{{ recommendation.recommended_at|date:'d/m/Y' }}] [{{ recommendation.user.username }}] {{ recommendation.note }}</li>
+      {% endfor %}
+      
+    </ul>
+
+    {% comment %} Reseñas {% endcomment %}
+    <h3 class="text-secondary-emphasis">Reseñas</h3>
+    <ul class="list-group list-group-flush">
+
+      {% for review in book.reviews.all %}
+        <li class="list-group-item">[{{ review.created_at|date:'d/m/Y' }}] [{{ review.user.username }}] ({{ review.rating}}/5) {{ review.text }}</li>
+      {% endfor %}
+
+    </ul>
+
+    {% comment %} Prestamos {% endcomment %}
+    <h3 class="text-secondary-emphasis">Prestamos</h3>
+    <ul class="list-group list-group-flush">
+
+      {% for loan in book.loans.all %}
+        {% if loan.is_returned %}
+          <li class="list-group-item">[{{ loan.loan_date|date:'d/m/Y' }}] [{{ loan.user.username }}] <span class="text-success">(Devuelto)</span> {{ loan.return_date|date:"d/m/Y"}}</li> 
+        {% else %}
+          <li class="list-group-item">[{{ loan.loan_date|date:'d/m/Y' }}] [{{ loan.user.username }}] <span class="text-danger">(Sin devolver)</span></li> 
+        {% endif %}
+      {% endfor %}
+
+    </ul>
+  </div>
+
+{% endblock content %}

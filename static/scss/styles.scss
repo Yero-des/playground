@@ -2,7 +2,7 @@
 $primary: #6B4F3B;
 $secondary: #8FAF8A;
 
-@import "../../libs/bootstrap/scss/bootstrap";
+@import "../bootstrap/scss/bootstrap";
 
 .border-bottom-gray {
     border-bottom: 5px solid $gray-500;

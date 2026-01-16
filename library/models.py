@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.templatetags.static import static
 
 # Create your models here.
 class Author(models.Model):
@@ -33,12 +34,18 @@ class Book(models.Model):
     def __str__(self):
         return self.title
     
+    @property
+    def cover(self):
+        if hasattr(self, 'detail') and self.detail.cover_url:
+            return self.detail.cover_url
+        return static('library/img/cover-not-found.jpg')
+    
 class BookDetail(models.Model):
     summary = models.TextField()
     cover_url = models.CharField()
     language = models.CharField()
     book = models.OneToOneField(Book, on_delete=models.CASCADE, related_name='detail')
-    
+
 class Review(models.Model):
     user = models.ForeignKey(
         get_user_model(), on_delete=models.CASCADE, related_name='reviews')

@@ -25,6 +25,10 @@ try:
 except admin.sites.NotRegistered:
     pass
 
+class RecomendationInline(admin.TabularInline):
+    model = Recommendation
+    extra = 1
+
 class ReviewInline(admin.TabularInline):
     model = Review
     extra = 1
@@ -59,7 +63,7 @@ class GenreAdmin(admin.ModelAdmin):
 
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
-    inlines = [BookDetailInline, ReviewInline, LoanInline]
+    inlines = [BookDetailInline, ReviewInline, RecomendationInline, LoanInline]
     list_display = ('title', 'author', 'publication_date', 'pages')
     search_fields = ('title', 'author__name')
     list_filter = ('author', 'genres', 'publication_date')
