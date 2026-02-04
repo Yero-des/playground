@@ -59,7 +59,7 @@ class Review(models.Model):
         Book, on_delete=models.CASCADE, related_name='reviews')
     rating = models.PositiveIntegerField()
     text = models.TextField()
-    created_at = models.DateField(auto_now=True)
+    created_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
         return f"{self.user} -> {self.book.title} ({self.rating}/5)"

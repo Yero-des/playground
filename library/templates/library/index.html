@@ -81,8 +81,8 @@
           <div class="card shadow overflow-hidden rounded-3">
             <header class="overflow-hidden bg-secondary" style="height: 15rem;">
               <img
-                src="{% if book.detail and book.detail.cover_url != "" %}{{ book.detail.cover_url }}{% else %}{% static "library/img/cover-not-found.jpg" %}{% endif %}"
-                class="card-img-top object-fit-contain" alt="...">
+                src="{% if book.detail and book.detail.cover_url != '' %}{{ book.detail.cover_url }}{% else %}{% static "library/img/cover-not-found.jpg" %}{% endif %}"
+                class="card-img-top object-fit-cover" alt="...">
             </header>
             <div class="card-body">
               <h5 class="card-title text-truncate text-primary" title="{{ book.title }}">{{ book.title }}</h5>
@@ -90,7 +90,14 @@
               <p class="card-text mb-2 phrase-truncate-4" title="{{ book.summary }}">{{ book.summary }}</p>
               <p class="card-text mb-2"><span class="text-secondary">Publication Date:</span> {{ book.publication_date|date:"d/m/Y" }}</p>
               <p class="card-text mb-2"><span class="text-secondary">Pages:</span> {{ book.pages }}</p>
-              <a href="{% url "book_detail" book_id=book.id %}" class="btn btn-primary">Ver Libro</a>
+              <div class="row mt-3 justify-content-center">
+                <div class="col-auto">
+                  <a href="{% url 'book_detail' book_id=book.id %}" class="btn btn-primary">Ver Libro</a>
+                </div>
+                <div class="col-auto">
+                  <a href="{% url 'recommend_book' book_id=book.id %}" class="btn btn-secondary text-light">+ Reseña</a>
+                </div>
+              </div>
             </div>
           </div>
         </div>

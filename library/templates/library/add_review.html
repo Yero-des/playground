@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Agregar review{% endblock title %}
+
+{% block content %}
+
+  {% include "includes/page_img.html" %}
+
+
+  <div class="container">
+
+    <h3>Agrega la reseña de {{ book.title }}</h3>
+    
+
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary">Enviar</button>
+
+    </form>
+
+  </div>
+
+{% endblock content %}
