@@ -121,12 +121,16 @@ class RecommendationAdmin(admin.ModelAdmin):
         }),
     )
     
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('book', 'rating', 'text', 'created_at')
+    ordering = ['-created_at']
+    list_filter = ['book']
 
 # admin.site.register(Author)
 # admin.site.register(Genre)
 # admin.site.register(Book, BookAdmin)
 admin.site.register(BookDetail)
-admin.site.register(Review)
 # admin.site.register(Loan, LoanAdmin)
 # admin.site.register(Recommendation, RecommendationAdmin)
 # admin.site.register(User, CustomUserAdmin)

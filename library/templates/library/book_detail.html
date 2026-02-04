@@ -43,11 +43,15 @@
     </ul>
 
     {% comment %} Reseñas {% endcomment %}
-    <h3 class="text-secondary-emphasis">Reseñas</h3>
+    <h3 class="text-secondary-emphasis">
+      Reseñas
+      <a href='{% url "recommend_book" book_id=book.id %}' class="btn btn-secondary text-light fs-6 fw-bold">+</a>
+    </h3>
+    
     <ul class="list-group list-group-flush">
 
-      {% for review in book.reviews.all %}
-        <li class="list-group-item">[{{ review.created_at|date:'d/m/Y' }}] [{{ review.user.username }}] ({{ review.rating}}/5) {{ review.text }}</li>
+      {% for review in reviews %} 
+        <li class="list-group-item">[{{ review.created_at|date:'d/m/Y H:i s' }}] [{{ review.user.username }}] ({{ review.rating}}/5) {{ review.text }}</li>
       {% empty %}
         <li class="list-group-item">Sin registros</li>
       {% endfor %}

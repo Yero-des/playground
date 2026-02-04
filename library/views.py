@@ -1,11 +1,16 @@
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotFound
 from django.shortcuts import render
-from library.models import Author, Book
+from .forms import ReviewForm
+from library.models import Author, Book, Review
 from django.db.models import Count, Sum, Avg, Q
 from django.contrib.auth import get_user_model
 from django.core.paginator import Paginator
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.templatetags.static import static
+from django.contrib.auth import get_user_model
+from django.contrib import messages
+
+User = get_user_model()
 
 # Create your views here.
 def index(request):
@@ -48,7 +53,31 @@ def index(request):
 
 def book_detail(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
+    reviews = book.reviews.order_by('-created_at')
     
     return render(request, 'library/book_detail.html', {
-        'book': book
+        'book': book,
+        'reviews': reviews
+    })
+    
+    
+def add_review(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    form = ReviewForm(request.POST or None)
+    
+    if request.method == "POST":
+        if form.is_valid():
+            review = form.save(commit=False) # Parar el guardado automatico
+            review.book = book
+            review.user = request.user
+            review.save()
+            
+            messages.success(request, "Gracias por la reseña")
+            return redirect('book_detail', book_id=book.id)
+        else:
+            messages.error(request, "Corrige los errores del formulario",  "danger")
+            
+    return render(request, 'library/add_review.html', {
+        "form": form,
+        "book": book
     })
