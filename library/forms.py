@@ -18,9 +18,16 @@ class ReviewSimpleForm(forms.Form):
             'rows': 4
         })
     )
- 
-    
+
+
 class ReviewForm(forms.ModelForm):
+    
+    would_recommend = forms.BooleanField(
+        label="¿Recomendarías este libro?", required=False,
+        widget=forms.CheckboxInput(attrs={
+            'class': 'form-check-input'
+        }))
+    
     class Meta:
         model = Review
         fields = ['rating', 'text']    
@@ -60,6 +67,14 @@ class ReviewForm(forms.ModelForm):
         
         if rating == 1 and len(text) < 10:
             raise forms.ValidationError("Si la calificación es de 1 estrella por favor explica mejor tu reseña")
+        
+    def save(self, commit=True):
+        review = super().save(commit=False)
+        # agregar lógica para would recommend
+        if commit:
+            review.save()
+            
+        return review
     
         
         

@@ -43,20 +43,46 @@
     </ul>
 
     {% comment %} Reseñas {% endcomment %}
-    <h3 class="text-secondary-emphasis">
-      Reseñas
-      <a href='{% url "recommend_book" book_id=book.id %}' class="btn btn-secondary text-light fs-6 fw-bold">+</a>
-    </h3>
-    
+    <div class="d-flex justify-content-start">
+      <h3 id="reviews" class="text-secondary-emphasis">
+        Reseñas
+      </h3>
+      <a href='{% url "recommend_book" book_id=book.id %}' class="btn btn-primary mx-3 text-light fs-6 fw-bold">+</a>
+      <nav aria-label="...">
+        <ul class="pagination m-0">
+          {% if reviews.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page_review=1&{{ query_string }}#reviews">Inicio</a></li>
+            <li class="page-item">
+              <a class="page-link" href="?page_review={{ reviews.previous_page_number }}&{{ query_string }}#reviews" aria-label="Previous">
+                <span aria-hidden="false">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="?page_review={{ reviews.previous_page_number }}&{{ query_string }}#reviews">{{ reviews.previous_page_number }}</a></li>
+          {% endif %}
+          <li class="page-item active"><a class="page-link" href="?page_review={{ reviews.number }}&{{ query_string }}#reviews">{{ reviews.number }}</a></li>
+          {% if reviews.has_next %}
+            <li class="page-item"><a class="page-link" href="?page_review={{ reviews.next_page_number }}&{{ query_string }}#reviews">{{ reviews.next_page_number }}</a></li>
+            <li class="page-item">
+              <a class="page-link" href="?page_review={{ reviews.next_page_number }}&{{ query_string }}#reviews" aria-label="Next">
+                <span aria-hidden="false">&raquo;</span>
+              </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="?page_review={{ reviews.paginator.num_pages }}&{{ query_string }}#reviews">Final</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+
     <ul class="list-group list-group-flush">
 
-      {% for review in reviews %} 
+      {% for review in reviews %}
         <li class="list-group-item">[{{ review.created_at|date:'d/m/Y H:i s' }}] [{{ review.user.username }}] ({{ review.rating}}/5) {{ review.text }}</li>
       {% empty %}
         <li class="list-group-item">Sin registros</li>
       {% endfor %}
 
     </ul>
+
 
     {% comment %} Prestamos {% endcomment %}
     <h3 class="text-secondary-emphasis">Prestamos</h3>

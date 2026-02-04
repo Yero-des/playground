@@ -55,9 +55,20 @@ def book_detail(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
     reviews = book.reviews.order_by('-created_at')
     
+    paginator = Paginator(reviews, 5)
+    page_number = request.GET.get('page_review')
+    page_review_obj = paginator.get_page(page_number)
+    
+    query_params = request.GET.copy()
+    if "page_review" in query_params:
+        query_params.pop('page_review')
+    
+    query_string = query_params.urlencode()
+    
     return render(request, 'library/book_detail.html', {
         'book': book,
-        'reviews': reviews
+        'reviews': page_review_obj,
+        'query_string': query_string
     })
     
     
@@ -72,7 +83,11 @@ def add_review(request, book_id):
             review.user = request.user
             review.save()
             
-            messages.success(request, "Gracias por la reseña")
+            would_recommend = form.cleaned_data.get('would_recommend')
+            if would_recommend:
+                messages.success(request, "Gracias por la reseña y recomendacion de nuestros libros 🤗")
+            else:                                    
+                messages.success(request, "Gracias por la reseña")
             return redirect('book_detail', book_id=book.id)
         else:
             messages.error(request, "Corrige los errores del formulario",  "danger")
