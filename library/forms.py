@@ -70,7 +70,8 @@ class ReviewForm(forms.ModelForm):
         
     def save(self, commit=True):
         review = super().save(commit=False)
-        # agregar lógica para would recommend
+        # agregar lógica antes de que se guarde
+        # ! ojo ! esto unicamente va al formulario no al admin
         if commit:
             review.save()
             

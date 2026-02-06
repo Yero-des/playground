@@ -9,10 +9,45 @@ from django.shortcuts import get_object_or_404, redirect
 from django.templatetags.static import static
 from django.contrib.auth import get_user_model
 from django.contrib import messages
+from django.http import HttpResponse
+from django.views import View
+from django.views.generic import TemplateView, ListView, DetailView
 
 User = get_user_model()
 
-# Create your views here.
+def hello(request):
+    return HttpResponse("Hola mundo desde FBV")
+
+
+class HelloView(View):
+    def get(self, request):
+        name = request.GET.get('name')
+        return HttpResponse(f"Hola mundo desde CBV and my name is {name}")
+    
+class WelcomeView(TemplateView):
+    template_name = 'library/welcome.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["total_books"] = Book.objects.count()
+        return context
+    
+  
+class BookListView(ListView):
+    model = Book
+    template_name = "library/book_list.html"
+    context_object_name = "books"
+    paginate_by = 5
+    
+
+class BookDetailView(DetailView):
+    model = Book
+    template_name = "library/book_detail.html"
+    context_object_name = "book"
+    # slug_field = "slug"
+    # slug_url_kwarg = "slug"
+    
+    
 def index(request):
     
     books = Book.objects.all().order_by('-publication_date')
@@ -65,7 +100,7 @@ def book_detail(request, book_id):
     
     query_string = query_params.urlencode()
     
-    return render(request, 'library/book_detail.html', {
+    return render(request, 'library/detail.html', {
         'book': book,
         'reviews': page_review_obj,
         'query_string': query_string

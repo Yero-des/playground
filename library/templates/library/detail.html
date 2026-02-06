@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block page_icon %}
+  <link rel="shortcut icon" href="{% static "icons/book.ico" %}" type="image/x-icon">
+{% endblock page_icon %}
+
+{% block title %}
+  Library
+{% endblock %}
+
+{% block page_style %}
+  <link rel="stylesheet" href="{% static 'library/css/library_styles.css' %}" />
+{% endblock %}
+
+{% block content %}
+
+  {% include "includes/page_img.html" %}
+
+  <div class="container mb-5 p-0">
+    <div class="row">
+      <div class="col-4">
+        <div class="overflow-hidden" style="height: 10rem;">
+          <img src="{{ book.cover }}" class="object-fit-contain h-100" alt="Imagen del libro {{ book.title }}">
+        </div>
+      </div>
+    </div>
+    <h1 class="title text-primary">{{ book.title }}</h1>
+    <h2 class="text-secondary">{{ book.author.name }}</h2>
+    <p class="fw-bold">{{ book.genres.all|join:", " }}</p>
+    <p>{{ book.summary }}</p>
+
+    {% comment %} Recomendaciones {% endcomment %}
+    <h3 class="text-secondary-emphasis">Recomendaciones</h3>
+    <ul class="list-group list-group-flush">
+
+      {% for recommendation in book.recomendations.all %}
+        <li class="list-group-item">[{{ recommendation.recommended_at|date:'d/m/Y' }}] [{{ recommendation.user.username }}] {{ recommendation.note }}</li>
+      {% empty %}
+        <li class="list-group-item">Sin registros</li>
+      {% endfor %}
+
+    </ul>
+
+    {% comment %} Reseñas {% endcomment %}
+    <div class="d-flex justify-content-start">
+      <h3 id="reviews" class="text-secondary-emphasis">
+        Reseñas
+      </h3>
+      <a href='{% url "recommend_book" book_id=book.id %}' class="btn btn-primary mx-3 text-light fs-6 fw-bold">+</a>
+      <nav aria-label="...">
+        <ul class="pagination m-0">
+          {% if reviews.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page_review=1&{{ query_string }}#reviews">Inicio</a></li>
+            <li class="page-item">
+              <a class="page-link" href="?page_review={{ reviews.previous_page_number }}&{{ query_string }}#reviews" aria-label="Previous">
+                <span aria-hidden="false">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="?page_review={{ reviews.previous_page_number }}&{{ query_string }}#reviews">{{ reviews.previous_page_number }}</a></li>
+          {% endif %}
+          <li class="page-item active"><a class="page-link" href="?page_review={{ reviews.number }}&{{ query_string }}#reviews">{{ reviews.number }}</a></li>
+          {% if reviews.has_next %}
+            <li class="page-item"><a class="page-link" href="?page_review={{ reviews.next_page_number }}&{{ query_string }}#reviews">{{ reviews.next_page_number }}</a></li>
+            <li class="page-item">
+              <a class="page-link" href="?page_review={{ reviews.next_page_number }}&{{ query_string }}#reviews" aria-label="Next">
+                <span aria-hidden="false">&raquo;</span>
+              </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="?page_review={{ reviews.paginator.num_pages }}&{{ query_string }}#reviews">Final</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+
+    <ul class="list-group list-group-flush">
+
+      {% for review in reviews %}
+        <li class="list-group-item">[{{ review.created_at|date:'d/m/Y H:i s' }}] [{{ review.user.username }}] ({{ review.rating}}/5) {{ review.text }}</li>
+      {% empty %}
+        <li class="list-group-item">Sin registros</li>
+      {% endfor %}
+
+    </ul>
+
+
+    {% comment %} Prestamos {% endcomment %}
+    <h3 class="text-secondary-emphasis">Prestamos</h3>
+    <ul class="list-group list-group-flush">
+
+      {% for loan in book.loans.all %}
+        {% if loan.is_returned %}
+          <li class="list-group-item">[{{ loan.loan_date|date:'d/m/Y' }}] [{{ loan.user.username }}] <span class="text-success">(Devuelto)</span> {{ loan.return_date|date:"d/m/Y"}}</li>
+        {% else %}
+          <li class="list-group-item">[{{ loan.loan_date|date:'d/m/Y' }}] [{{ loan.user.username }}] <span class="text-danger">(Sin devolver)</span></li>
+        {% endif %}
+      {% empty %}
+        <li class="list-group-item">Sin registros</li>
+      {% endfor %}
+
+    </ul>
+  </div>
+
+{% endblock content %}

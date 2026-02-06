@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de libros{% endblock title %}
+
+{% block content %}
+
+  <div class="container mt-3">
+
+    <h2>Libros disponibles</h2>
+    <ul>
+      {% for book in books %}
+        <li><a href="{% url 'book_detail' pk=book.id %}" class="link-secondary link-underline link-underline-opacity-0 link-underline-opacity-75-hover"><strong>{{ book.title }}</strong></a> - {{ book.author.name }}</li>
+      {% empty %}
+        <li>No hay libros disponibles</li>
+      {% endfor %}
+    </ul>
+    
+    {% if is_paginated %}
+      <div>
+        
+        {% if page_obj.has_previous %}
+          <a href="?page={{page_obj.previous_page_number}}">Anterior</a>
+        {% endif %}
+        <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+        {% if page_obj.has_next %}
+          <a href="?page={{page_obj.next_page_number}}">Siguiente</a>
+        {% endif %}          
+
+      </div>
+    {% endif %}
+      
+
+  </div>
+
+{% endblock content %}

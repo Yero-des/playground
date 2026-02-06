@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Welcome{% endblock title %}
+{% block content %}
+
+  <div class="container mt-2">
+    <img class="img-thumbnail" src='{% static "img/hello.gif" %}' alt="Welcome to my page" width="300">    
+    <h1>Bienvenidos a Minilibrary</h1>
+    <p>Explora mas de {{ total_books }} nuevos libros y escribe tus reseñas</p>
+    <a href='{% url "library" %}' class="btn btn-primary">Ver libros</a>
+  </div>
+
+{% endblock content %}
