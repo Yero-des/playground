@@ -44,7 +44,7 @@ class BookDetailInline(admin.StackedInline):
     
 @admin.register(User)
 class CustomUserAdmin(BaseUserAdmin):
-    inlines = [LoanInline]
+    inlines = [LoanInline, ReviewInline]
     list_display = ('username', 'email', 'date_joined', 'is_superuser')
     ordering = ['-date_joined']
 

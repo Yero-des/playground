@@ -1,5 +1,7 @@
+import time
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotFound
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from .forms import ReviewForm
 from library.models import Author, Book, Review
 from django.db.models import Count, Sum, Avg, Q
@@ -11,7 +13,7 @@ from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.http import HttpResponse
 from django.views import View
-from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 
 User = get_user_model()
 
@@ -23,6 +25,7 @@ class HelloView(View):
     def get(self, request):
         name = request.GET.get('name')
         return HttpResponse(f"Hola mundo desde CBV and my name is {name}")
+ 
     
 class WelcomeView(TemplateView):
     template_name = 'library/welcome.html'
@@ -30,6 +33,7 @@ class WelcomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["total_books"] = Book.objects.count()
+        context["name"] = self.request.GET.get('name')
         return context
     
   
@@ -47,6 +51,97 @@ class BookDetailView(DetailView):
     # slug_field = "slug"
     # slug_url_kwarg = "slug"
     
+    
+class ReviewCreateView(CreateView):
+    model = Review
+    form_class = ReviewForm
+    template_name = "library/add_review.html"
+
+    def form_valid(self, form):
+        book_id = self.kwargs.get('pk')
+        book = Book.objects.get(pk=book_id)
+        form.instance.book = book
+        form.instance.user_id = self.request.user.id
+        
+        would_recommend = form.cleaned_data.get('would_recommend')
+        if would_recommend:
+            messages.success(self.request, "Gracias por la reseña y recomendacion de nuestros libros 🤗")
+        else:                                    
+            messages.success(self.request, "Gracias por la reseña")
+        
+        return super().form_valid(form)  
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        book_id = self.kwargs.get('pk')
+        book = Book.objects.get(pk=book_id)
+        context["book"] = book
+        return context         
+    
+    def get_success_url(self):
+        return reverse_lazy("detail", kwargs={
+            "book_id": self.kwargs.get("pk")
+        })
+    
+
+class ReviewUpdateView(UpdateView):
+    model = Review
+    form_class = ReviewForm
+    template_name = "library/add_review.html"
+    
+    def get_queryset(self):
+        return Review.objects.filter(user_id=self.request.user.id)
+
+    def form_valid(self, form):
+        would_recommend = form.cleaned_data.get('would_recommend')
+        if would_recommend:
+            messages.success(self.request, "Se actualizo su reseña gracias por la recomendación 🤗", "warning")
+        else:                                    
+            messages.success(self.request, "Se actualizo la reseña", "warning")
+        
+        return super().form_valid(form)  
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Hubo un error al guardar los cambios")
+        return super().form_invalid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        review = Review.objects.get(pk=self.kwargs.get('pk'))
+        context["book"] = review.book
+        return context         
+    
+    def get_success_url(self):
+        review = Review.objects.get(pk=self.kwargs.get("pk"))
+        return reverse_lazy("detail", kwargs={
+            "book_id": review.book.id
+        })
+     
+  
+class ReviewDeleteview(DeleteView):
+    model = Review
+    template_name = "library/review_confirm_delete.html"
+    context_object_name = "review"
+    
+    def form_valid(self, form):
+        messages.success(self.request, "Tu reseña fue eliminada", "danger")
+        return super().form_valid(form)
+    
+    
+    def get_success_url(self):
+        review = Review.objects.get(pk=self.kwargs.get('pk'))
+        return reverse_lazy("detail", kwargs={
+            "book_id": review.book.id
+        })
+  
+    def get_queryset(self):
+        return Review.objects.filter(user_id=self.request.user.id)
+    
+   
+def home(request):
+    print(request.user)
+    return HttpResponse("Hola")
+
     
 def index(request):
     
@@ -123,7 +218,7 @@ def add_review(request, book_id):
                 messages.success(request, "Gracias por la reseña y recomendacion de nuestros libros 🤗")
             else:                                    
                 messages.success(request, "Gracias por la reseña")
-            return redirect('book_detail', book_id=book.id)
+            return redirect('detail', book_id=book.id)
         else:
             messages.error(request, "Corrige los errores del formulario",  "danger")
             
@@ -131,3 +226,8 @@ def add_review(request, book_id):
         "form": form,
         "book": book
     })
+    
+
+def time_test(request):
+    time.sleep(2)
+    return HttpResponse("Esta vista tardo 2 segundos")

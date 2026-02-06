@@ -18,7 +18,9 @@
       <p>Language: {{ book.detail.language }}</p>
     {% endif %}
 
-    <a href="{% url 'book_list' %}">Volver a la lista</a>
+    <a href="{% url 'book_list' %}" class="link-secondary link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Volver a la lista</a>
+    <br>
+    <a href="{% url 'add_review' pk=book.id %}" class="link-secondary link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Agregar review</a>
   
   </div> 
 

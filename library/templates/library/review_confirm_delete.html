@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Eliminar review{% endblock title %}
+
+{% block content %}
+
+  <div class="container mt-3">
+    <h2>¿Estas seguro que quieres eliminar la review?</h2>
+    <img class="img-thumbnail" src='{% if review.book.detail.cover_url %}{{ review.book.detail.cover_url }}{% endif %}' alt="{{ review.book.title }}" width="300">    
+    <p><strong>{{ review.book.title }}</strong></p>
+    <p>{{ review.text }}</p>
+
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Si eliminar</button>
+      <a href="{% url 'detail' book_id=review.book.id %}" class="btn btn-secondary text-light">Cancelar</a>
+    </form>
+
+  </div>
+
+{% endblock content %}

@@ -47,7 +47,7 @@
       <h3 id="reviews" class="text-secondary-emphasis">
         Reseñas
       </h3>
-      <a href='{% url "recommend_book" book_id=book.id %}' class="btn btn-primary mx-3 text-light fs-6 fw-bold">+</a>
+      <a href="{% url 'add_review' pk=book.id %}" class="btn btn-primary mx-3 text-light fs-6 fw-bold">+</a>
       <nav aria-label="...">
         <ul class="pagination m-0">
           {% if reviews.has_previous %}
@@ -76,7 +76,12 @@
     <ul class="list-group list-group-flush">
 
       {% for review in reviews %}
-        <li class="list-group-item">[{{ review.created_at|date:'d/m/Y H:i s' }}] [{{ review.user.username }}] ({{ review.rating}}/5) {{ review.text }}</li>
+        <li class="list-group-item">[{{ review.created_at|date:'d/m/Y H:i s' }}] [{{ review.user.username }}] ({{ review.rating}}/5) {{ review.text }}
+          {% if review.user.id == request.user.id %}
+            <a href="{% url 'edit_review' pk=review.id %}" class="link-secondary link-underline link-underline-opacity-0 link-underline-opacity-75-hover text-uppercase fw-bold">Edit</a>
+            <a href="{% url 'delete_review' pk=review.id %}" class="link-danger link-underline link-underline-opacity-0 link-underline-opacity-75-hover text-uppercase fw-bold">Delete</a>
+          {% endif %}
+        </li>
       {% empty %}
         <li class="list-group-item">Sin registros</li>
       {% endfor %}

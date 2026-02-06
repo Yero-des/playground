@@ -95,7 +95,7 @@
                   <a href="{% url 'detail' book_id=book.id %}" class="btn btn-primary">Ver Libro</a>
                 </div>
                 <div class="col-auto">
-                  <a href="{% url 'recommend_book' book_id=book.id %}" class="btn btn-secondary text-light">+ Reseña</a>
+                  <a href="{% url 'add_review' pk=book.id %}" class="btn btn-secondary text-light">+ Reseña</a>
                 </div>
               </div>
             </div>
