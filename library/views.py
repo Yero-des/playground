@@ -136,8 +136,8 @@ class ReviewDeleteview(DeleteView):
   
     def get_queryset(self):
         return Review.objects.filter(user_id=self.request.user.id)
-    
-   
+ 
+ 
 def home(request):
     print(request.user)
     return HttpResponse("Hola")
