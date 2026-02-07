@@ -1,8 +1,9 @@
 {% load static %}
 <nav class="navbar bg-primary">
   <div class="container">
-    <a class="navbar-brand d-flex" href="{% url 'library' %}">
-      <p class="fs-3 fw-bold text-white">DevTalles</p>
+    <a class="navbar-brand me-auto my-3" href="{% url 'library' %}">
+      <p class="fs-3 fw-bold text-white m-0">DevTalles</p>
     </a>
+    <p class="fs-5 fw-bold text-light my-auto me-2">{% if request.user.is_authenticated %}{{ request.user.username }}{% endif %}</p>
   </div>
 </nav>
