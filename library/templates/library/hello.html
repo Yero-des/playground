@@ -1,10 +1,14 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Hello{% endblock title %}
 
 {% block content %}
 
-  <h1 class="text-center mt-3">{{ greeting }}</h1>
+  <div class="d-flex justify-content-center">
+    <img class="img-thumbnail mt-3" src='{% static "img/hello.gif" %}' alt="Welcome to my page" width="300">
+  </div>
+  <h1 class="text-center mt-2">{{ greeting }}</h1>
   <p class="text-center mt-2">Esta es una pagina de prueba asi que no te preocupes</p>
 
 {% endblock content %}
