@@ -20,6 +20,13 @@ User = get_user_model()
 def hello(request):
     return HttpResponse("Hola mundo desde FBV")
 
+class HelloTemplateView(TemplateView):
+    template_name = 'library/hello.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["greeting"] = "Hello world"
+        return context
 
 class HelloView(View):
     def get(self, request):
