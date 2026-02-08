@@ -25,7 +25,8 @@ class HelloTemplateView(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["greeting"] = "Hello world"
+        context["greeting"] = "hello world".capitalize()
+        context["language"] = "ingles"
         return context
 
 class HelloView(View):

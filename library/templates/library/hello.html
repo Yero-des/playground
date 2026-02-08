@@ -5,13 +5,11 @@
 
 {% block content %}
 
-
-
   <div class="d-flex justify-content-center">
     <img class="img-thumbnail mt-3" src='{% static "img/hello.gif" %}' alt="Welcome to my page" width="300">
   </div>
   <h1 class="text-center mt-2">{{ greeting }}</h1>
-  <h2 class="text-center mt-2">{{ greeting }} es una palabra de origen ingles</h2>
+  <h2 class="text-center mt-2">{{ greeting }} es una palabra de origen {{ language }}</h2>
   <p class="text-center mt-2">Esta es una pagina de prueba asi que no te preocupes</p>
 
 
