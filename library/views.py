@@ -27,6 +27,7 @@ class HelloTemplateView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["greeting"] = "hello world".capitalize()
         context["language"] = "ingles"
+        context["lorem"] = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed obcaecati repellat voluptas error excepturi. Recusandae necessitatibus molestias autem sit? Cumque nostrum magnam necessitatibus nemo fugiat dolorum pariatur nam quae doloremque!"
         return context
 
 class HelloView(View):
