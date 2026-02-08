@@ -43,7 +43,7 @@ class OfficeHoursOnlyMiddleware:
         
         now = datetime.now().hour
         print(f"Hora actual: {now}")
-        if now < 9 and now > 18:
+        if now > 9 and now < 18:
             return HttpResponseForbidden("Estas fuera de horario laboral regresa entre las 9:00a.m y las 7:00p.m")
         
         return self.get_response(request)

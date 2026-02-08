@@ -52,8 +52,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'library.middleware.TimingMiddleware',
-    'library.middleware.BlockIPMiddleware',
-    'library.middleware.OfficeHoursOnlyMiddleware',
+    # 'library.middleware.BlockIPMiddleware',
+    # 'library.middleware.OfficeHoursOnlyMiddleware',
     'library.middleware.RequireLoginMiddleware',
 ]
 
@@ -129,3 +129,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
+
+SESSION_COOKIE_AGE = 3600
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+SESSION_SAVE_EVERY_REQUEST = True

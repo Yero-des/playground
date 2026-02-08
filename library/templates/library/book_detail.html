@@ -6,12 +6,12 @@
 
   <div class="container mt-3">
 
-    <h2>{{ book.title }}</h2> 
+    <h2>{{ book.title }}</h2>
     <p>Author: {{ book.author.name }}</p>
     <p>Pages: {{ book.pages }}</p>
     <p>Publication Date: {{ book.publication_date }}</p>
     <p>ISBN: {{ book.isbn }}</p>
-    
+
     {% if book.detail %}
       <hr>
       <p>Summary: {{ book.detail.summary }}</p>
@@ -21,7 +21,7 @@
     <a href="{% url 'book_list' %}" class="link-secondary link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Volver a la lista</a>
     <br>
     <a href="{% url 'add_review' pk=book.id %}" class="link-secondary link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Agregar review</a>
-  
-  </div> 
+
+  </div>
 
 {% endblock content %}

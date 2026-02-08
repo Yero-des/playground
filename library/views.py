@@ -14,11 +14,9 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.db.models import When, Case
 
 User = get_user_model()
-
-def hello(request):
-    return HttpResponse("Hola mundo desde FBV")
 
 class HelloTemplateView(TemplateView):
     template_name = 'library/hello.html'
@@ -60,6 +58,11 @@ class BookDetailView(DetailView):
     # slug_field = "slug"
     # slug_url_kwarg = "slug"
     
+    def get(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+        request.session['last_viewed_book'] = self.object.id
+        return response
+
     
 class ReviewCreateView(CreateView):
     model = Review
@@ -151,13 +154,14 @@ def home(request):
     print(request.user)
     return HttpResponse("Hola")
 
-    
+
 def index(request):
     
     books = Book.objects.all().order_by('-publication_date')
     query = request.GET.get('query_search')
     date_start = request.GET.get('start')
     date_end = request.GET.get('end')
+    book_id_last_3 = request.session.get('last_3_viewed_books')
     
     if query:
         books = books.filter(
@@ -182,11 +186,17 @@ def index(request):
     
     query_string = query_params.urlencode()
     
+    print(book_id_last_3)
+    last_3_viewed_books = Book.objects.filter(id__in=book_id_last_3).order_by(
+        Case(*[When(id=pk, then=pos) for pos, pk in enumerate(book_id_last_3)])
+        )        
+            
     return render(request, 'library/index.html', {
         'name': 'Yeromi Zavala Castillo',            
         'books': page_obj,
         'query': query,
-        'query_string': query_string
+        'query_string': query_string,
+        'last_3_viewed_books': last_3_viewed_books
     })
         
 
@@ -203,6 +213,19 @@ def book_detail(request, book_id):
         query_params.pop('page_review')
     
     query_string = query_params.urlencode()
+    
+    last_3_books = request.session.get('last_3_viewed_books', [])
+
+    if len(last_3_books) < 3 and book.id not in last_3_books:
+        last_3_books.insert(0, book.id)
+    elif len(last_3_books) == 3 and book.id not in last_3_books:
+        last_3_books.pop()
+        last_3_books.insert(0, book.id)
+    elif len(last_3_books) == 3 and book.id in last_3_books:
+        last_3_books.remove(book.id)
+        last_3_books.insert(0, book.id)
+    
+    request.session['last_3_viewed_books'] = last_3_books
     
     return render(request, 'library/detail.html', {
         'book': book,
@@ -240,3 +263,18 @@ def add_review(request, book_id):
 def time_test(request):
     time.sleep(2)
     return HttpResponse("Esta vista tardo 2 segundos")
+
+class CounterTemplateView(TemplateView):
+    template_name = 'library/counter.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        visits = self.request.session.get('visits', 0)
+        visits += 1
+        
+        self.request.session['visits'] = visits
+        # self.request.session.set_expiry(15)
+        # 300 -> 10 min, 0 -> Al cerrar el navegador, None -> Duracion por defecto
+        
+        context['visits'] = visits
+        return context

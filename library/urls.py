@@ -13,5 +13,6 @@ urlpatterns = [
     path('books', views.index, name="library"),
     path('detail/<str:book_id>', views.book_detail, name="detail"),
     path('recomendar/<int:book_id>', views.add_review, name="recommend_book"),
-    path('time-test', views.time_test)
+    path('time-test', views.time_test),
+    path('counter', views.CounterTemplateView.as_view())
 ]
