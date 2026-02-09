@@ -6,5 +6,6 @@ urlpatterns = [
     path('messages/', include("quotes.urls")),
     path('landings/', include("landing.urls")),
     path('calculator/', include("calculator.urls")),
-    path("library/", include('library.urls'))
+    path("library/", include('library.urls')),
+    path("documentation/", include('documentation.urls')),
 ]

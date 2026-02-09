@@ -43,7 +43,7 @@ class WelcomeView(TemplateView):
         context["name"] = self.request.GET.get('name')
         return context
     
-  
+    
 class BookListView(ListView):
     model = Book
     template_name = "library/book_list.html"
@@ -161,7 +161,7 @@ def index(request):
     query = request.GET.get('query_search')
     date_start = request.GET.get('start')
     date_end = request.GET.get('end')
-    book_id_last_3 = request.session.get('last_3_viewed_books')
+    book_id_last_3 = request.session.get('last_3_viewed_books', [])
     
     if query:
         books = books.filter(

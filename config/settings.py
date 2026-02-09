@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'landing',
     'calculator', 
     'library',
+    'documentation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -130,6 +131,6 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
-SESSION_COOKIE_AGE = 3600
-SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-SESSION_SAVE_EVERY_REQUEST = True
+# SESSION_COOKIE_AGE = 3600
+# SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+# SESSION_SAVE_EVERY_REQUEST = True

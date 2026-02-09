@@ -31,10 +31,14 @@
             <header class="overflow-hidden bg-gray position-relative" style="height: 15rem;">
               {% if forloop.first %}
                 <div class="position-absolute top-0 start-0 bg-danger text-light fw-bold px-5 rounded-3 rounded-top-0 rounded-start-0">Recien leido</div>
+                <img
+                  src="{% if book.detail and book.detail.cover_url != '' %}{{ book.detail.cover_url }}{% else %}{% static "library/img/cover-not-found.jpg" %}{% endif %}"
+                  class="card-img-top object-fit-cover h-100" alt=''>
+              {% else %}
+                <img
+                  src="{% if book.detail and book.detail.cover_url != '' %}{{ book.detail.cover_url }}{% else %}{% static "library/img/cover-not-found.jpg" %}{% endif %}"
+                  class="card-img-top object-fit-cover h-100" alt='Imagen referencial del libro: "{{ book.title }}"'>
               {% endif %}
-              <img
-                src="{% if book.detail and book.detail.cover_url != '' %}{{ book.detail.cover_url }}{% else %}{% static "library/img/cover-not-found.jpg" %}{% endif %}"
-                class="card-img-top object-fit-cover h-100" alt="{{ book.title }}">
             </header>
             <div class="card-body">
               <h5 class="card-title text-truncate text-primary" title="{{ book.title }}">{{ book.title }}</h5>
@@ -126,7 +130,7 @@
             <header class="overflow-hidden bg-gray" style="height: 15rem;">
               <img
                 src="{% if book.detail and book.detail.cover_url != '' %}{{ book.detail.cover_url }}{% else %}{% static "library/img/cover-not-found.jpg" %}{% endif %}"
-                class="card-img-top object-fit-cover h-100" alt="{{ book.title }}">
+                class="card-img-top object-fit-cover h-100" alt='Imagen referencial del libro: "{{ book.title }}"'>
             </header>
             <div class="card-body">
               <h5 class="card-title text-truncate text-primary" title="{{ book.title }}">{{ book.title }}</h5>
