@@ -55,7 +55,7 @@ MIDDLEWARE = [
     'library.middleware.TimingMiddleware',
     # 'library.middleware.BlockIPMiddleware',
     # 'library.middleware.OfficeHoursOnlyMiddleware',
-    'library.middleware.RequireLoginMiddleware',
+    # 'library.middleware.RequireLoginMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -115,12 +115,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'es-pe'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Lima'
 
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
@@ -134,3 +133,7 @@ STATICFILES_DIRS = [
 # SESSION_COOKIE_AGE = 3600
 # SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 # SESSION_SAVE_EVERY_REQUEST = True
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'library'
+LOGOUT_REDIRECT_URL = 'login'

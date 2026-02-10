@@ -1,9 +1,9 @@
 {% if messages %}
-      
+
   {% for message in messages %}
-  
-    <div 
-      class="toast position-fixed bottom-0 end-0 p-3 m-3 text-{{message.tags}} border-{{message.tags}}" 
+
+    <div
+      class="toast position-fixed bottom-0 end-0 p-3 m-3 text-{{message.tags}} border-{{message.tags}}"
       role="alert" aria-live="assertive" aria-atomic="true"
       data-bs-delay="3000"
       data-bs-autohide="true"
@@ -17,7 +17,7 @@
       </div>
 
     </div>
-    
+
   {% endfor %}
 
 {% endif %}

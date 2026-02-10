@@ -1,9 +1,23 @@
 {% load static %}
 <nav class="navbar bg-primary">
   <div class="container">
-    <a class="navbar-brand me-auto my-3" href="{% url 'library' %}">
+    <a class="navbar-brand me-auto my-3" href="{% url 'book_list' %}">
       <p class="fs-3 fw-bold text-white m-0">DevTalles</p>
     </a>
-    <p class="fs-5 fw-bold text-light my-auto me-2">{% if request.user.is_authenticated %}{{ request.user.username }}{% endif %}</p>
+    {% if request.user.is_authenticated %}
+      <div class="dropdown me-2 my-auto">
+        <button class="btn btn-secondary fw-bolder text-wrap text-light dropdown-toggle show" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          {{ request.user.username }}       
+        </button>
+        <ul class="dropdown-menu">
+          <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <li>
+              <button class="dropdown-item text-danger">Cerrar sesión</button>
+            </li>
+          </form>
+        </ul>
+      </div>    
+    {% endif %}
   </div>
 </nav>

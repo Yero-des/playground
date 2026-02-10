@@ -1,6 +1,7 @@
 from django.urls import path
 from django.views.generic import TemplateView
 from . import views
+from django.contrib.auth.views import LoginView
 
 urlpatterns = [
     path('', views.WelcomeView.as_view(), name="welcome"),
@@ -10,8 +11,6 @@ urlpatterns = [
     path('review/<int:pk>/edit', views.ReviewUpdateView.as_view(), name="edit_review"),
     path('review/<int:pk>/delete', views.ReviewDeleteview.as_view(), name="delete_review"),
     path('hello', views.HelloTemplateView.as_view(), name="hello"),
-    path('books', views.index, name="library"),
-    path('detail/<str:book_id>', views.book_detail, name="detail"),
     path('recomendar/<int:book_id>', views.add_review, name="recommend_book"),
     path('time-test', views.time_test),
     path('counter', views.CounterTemplateView.as_view())
