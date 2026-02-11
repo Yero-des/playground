@@ -1,7 +1,27 @@
 from django import forms
 from library.models import Review, Book
+from django.core.files.uploadedfile import UploadedFile
+from django.contrib.auth.forms import AuthenticationForm
 
 BAD_WORDS = ["malo", "mugroso", "estupido", "wey", "todo wey", "gonorrea"]
+
+class CustomLoginForm(AuthenticationForm):
+    username = forms.CharField(
+        label="Usuario",
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Tu usuario'
+        })
+    )
+
+    password = forms.CharField(
+        label="Contraseña",
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Tu contraseña'
+        })
+    )
+
 
 class ReviewSimpleForm(forms.Form):
     rating = forms.IntegerField(
@@ -117,11 +137,19 @@ class BookForm(forms.ModelForm):
     def clean_cover(self):
         cover = self.cleaned_data.get('cover')
         
-        if cover:
+        if cover and isinstance(cover, UploadedFile):
             if cover.size > 1 * 1024 * 1024:
-                raise forms.ValidationError("El archivo no debe superar los 1MB")
-            if not cover.content_type in ['image/jpeg', 'image/png', 'image/gif']:
                 raise forms.ValidationError(
-                    "El archivo solo acepta imagenes de tipo .jpeg .png .gif")
-            
+                    "El archivo no debe superar los 1MB"
+                )
+
+            if cover.content_type not in [
+                'image/jpeg',
+                'image/png',
+                'image/gif'
+            ]:
+                raise forms.ValidationError(
+                    "El archivo solo acepta imágenes .jpeg, .png o .gif"
+                )
+
         return cover

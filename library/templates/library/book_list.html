@@ -128,7 +128,12 @@
 
         <div class="col">
           <div class="card shadow overflow-hidden rounded-3">
-            <header class="overflow-hidden bg-gray" style="height: 15rem;">
+            <header class="overflow-hidden position-relative bg-gray" style="height: 15rem;">
+              {% if request.user.username == book.author.name %}
+                <a href="{% url 'edit_book' pk=book.id %}" class="position-absolute top-0 start-0 bg-secondary text-light fw-bold px-3 py-2 rounded-3 rounded-top-0 rounded-start-0">
+                  <i class="bi bi-pencil"></i>
+                </a>
+              {% endif %}
               <img
                 src="{% if book.cover %}{{ book.cover.url }}{% else %}{% static 'library/img/cover-not-found.jpg' %}{% endif %}"
                 class="card-img-top object-fit-cover h-100" alt='Imagen referencial del libro: "{{ book.title }}"'>

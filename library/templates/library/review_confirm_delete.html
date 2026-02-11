@@ -13,7 +13,7 @@
   <div class="container mt-3">
     <h2>¿Estas seguro que quieres eliminar la review?</h2>
     <p class="fw-bold">{{ review.text }}</p>
-    <img class="img-thumbnail" src='{% if review.book.cover %}{{ review.book.cover.url }}{% endif %}' alt="Una imagen del libro: {{ review.book.title }}" width="300">
+    <img class="img-thumbnail" src='{% if review.book.cover %}{{ review.book.cover.url }}{% else %}{% static "library/img/cover-not-found.jpg" %}{% endif %}' alt="Una imagen del libro: {{ review.book.title }}" width="300">
     <p>{{ review.book.title }}</p>
 
     <form method="post">

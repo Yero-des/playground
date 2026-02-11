@@ -21,7 +21,7 @@
     <div class="row">
       <div class="col-4">
         <div class="overflow-hidden" style="height: 10rem;">
-          <img src="{% if book.cover %}{{ book.cover.url }}{% endif %}" class="object-fit-contain h-100" alt="Imagen del libro {{ book.title }}">
+          <img src="{% if book.cover %}{{ book.cover.url }}{% else %}{% static 'library/img/cover-not-found.jpg' %}{% endif %}" class="object-fit-contain h-100" alt="Imagen del libro {{ book.title }}">
         </div>
       </div>
     </div>

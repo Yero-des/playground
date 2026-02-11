@@ -5,11 +5,11 @@ from django.db.models import Q
 from django.contrib.auth import get_user_model
 from django.core.paginator import Paginator
 from django.contrib.auth import get_user_model
-from django.views.generic import ListView, DetailView, CreateView
 from django.db.models import When, Case
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import HttpResponseForbidden
 from django.contrib import messages
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
 User = get_user_model()
     
@@ -132,3 +132,24 @@ class BookCreateView(CreateView):
         return reverse_lazy('book_list')
     
     
+class BookUpdateView(UpdateView):
+    model = Book
+    form_class = BookForm
+    template_name = 'library/add_book.html'
+    
+    def get_queryset(self):
+        return super().get_queryset().filter(author__name=self.request.user.username)
+    
+    def form_valid(self, form):
+        messages.success(self.request, "Se ha actualizado correctamente el libro correctamente", "warning")
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Hubo un error al actualizar el libro revisa los campos", "danger")
+        return super().form_invalid(form)    
+    
+    def get_success_url(self):
+        return reverse_lazy("book_detail", kwargs={
+            'pk': self.object.id
+        })
+     
