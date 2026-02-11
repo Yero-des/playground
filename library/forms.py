@@ -1,5 +1,5 @@
 from django import forms
-from library.models import Review
+from library.models import Review, Book
 
 BAD_WORDS = ["malo", "mugroso", "estupido", "wey", "todo wey", "gonorrea"]
 
@@ -78,4 +78,50 @@ class ReviewForm(forms.ModelForm):
         return review
     
         
+class BookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = ['title', 'cover', 'author', 'publication_date', 'pages', 
+                  'isbn', 'genres']
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'value': 'Libro de prueba',
+                'placeholder': 'Escribe tu titulo aqui...',
+                'class': 'form-control'
+            }),
+            'cover': forms.FileInput(attrs={
+                'accept': 'image/*',
+                'class': 'form-control',
+            }),
+            'author': forms.Select(attrs={
+                'class': 'form-control'
+            }),
+            'publication_date': forms.DateInput(attrs={
+                'value': '2004-07-01',
+                'type': 'date',
+                'class': 'form-control'
+            }),
+            'pages': forms.NumberInput(attrs={
+                'value': '100',
+                'class': 'form-control'
+            }),
+            'isbn': forms.TextInput(attrs={
+                'value': 'A1B2C3D4F5',
+                'class': 'form-control'
+            }),
+            'genres': forms.SelectMultiple(attrs={                
+                'class': 'form-control'
+            }),
+        }
         
+    def clean_cover(self):
+        cover = self.cleaned_data.get('cover')
+        
+        if cover:
+            if cover.size > 1 * 1024 * 1024:
+                raise forms.ValidationError("El archivo no debe superar los 1MB")
+            if not cover.content_type in ['image/jpeg', 'image/png', 'image/gif']:
+                raise forms.ValidationError(
+                    "El archivo solo acepta imagenes de tipo .jpeg .png .gif")
+            
+        return cover

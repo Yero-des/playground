@@ -67,13 +67,13 @@ class BookAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'publication_date', 'pages')
     search_fields = ('title', 'author__name')
     list_filter = ('author', 'genres', 'publication_date')
-    ordering = ['-publication_date']
+    ordering = ['-created_at']
     date_hierarchy = 'publication_date'
     autocomplete_fields = ['author', 'genres']
     
     fieldsets = (
         ("Información general", {
-            "fields": ('title', 'author', 'publication_date', 'genres'),
+            "fields": ('title', 'author', 'publication_date', 'genres', 'cover'),
         }),
         ("Detalles", {
             "fields": ('isbn', 'pages'),
@@ -82,11 +82,16 @@ class BookAdmin(admin.ModelAdmin):
     )
     
     def has_add_permission(self, request):
-        return request.user.is_superuser
-    
-    def has_change_permission(self, request, obj = None):
         return request.user.is_staff
     
+    def has_change_permission(self, request, obj = None):
+        # return request.user.is_staff
+        if obj is not None:
+            return obj.author == request.user.username or request.user.is_superuser
+        return True
+    
+    def has_view_permission(self, request, obj = None):
+        return True
     
 @admin.register(Loan)
 class LoanAdmin(admin.ModelAdmin):
@@ -126,6 +131,7 @@ class ReviewAdmin(admin.ModelAdmin):
     list_display = ('book', 'rating', 'text', 'created_at')
     ordering = ['-created_at']
     list_filter = ['book']
+    
 
 # admin.site.register(Author)
 # admin.site.register(Genre)

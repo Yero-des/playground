@@ -26,6 +26,8 @@ class Book(models.Model):
     isbn = models.CharField(max_length=50)
     genres = models.ManyToManyField(Genre, related_name='books')
     recommended_by = models.ManyToManyField(get_user_model(), through='Recommendation', related_name='recommendations')
+    cover = models.ImageField(upload_to="books/covers", blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     
     class Meta:
         verbose_name = 'Libro'
@@ -33,12 +35,6 @@ class Book(models.Model):
     
     def __str__(self):
         return self.title
-    
-    @property
-    def cover(self):
-        if hasattr(self, 'detail') and self.detail.cover_url:
-            return self.detail.cover_url
-        return static('library/img/cover-not-found.jpg')
     
     @property
     def summary(self):

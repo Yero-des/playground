@@ -3,15 +3,16 @@ from ..forms import ReviewForm
 from library.models import Author, Book, Review
 from django.contrib import messages
 from django.views.generic import CreateView, UpdateView, DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect, render
 
-class ReviewCreateView(LoginRequiredMixin, CreateView):
+class ReviewCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Review
     form_class = ReviewForm
     template_name = "library/add_review.html"
+    permission_required = "library.add_review"
 
     def form_valid(self, form):
         book_id = self.kwargs.get('pk')
@@ -40,7 +41,7 @@ class ReviewCreateView(LoginRequiredMixin, CreateView):
         })
     
 
-class ReviewUpdateView(LoginRequiredMixin, UpdateView):
+class ReviewUpdateView(LoginRequiredMixin, UpdateView):    
     model = Review
     form_class = ReviewForm
     template_name = "library/add_review.html"
@@ -74,49 +75,24 @@ class ReviewUpdateView(LoginRequiredMixin, UpdateView):
         })
      
   
-class ReviewDeleteview(LoginRequiredMixin, DeleteView):
+class ReviewDeleteview(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    permission_required = "library.delete_review"
     model = Review
     template_name = "library/review_confirm_delete.html"
     context_object_name = "review"
     
-    def form_valid(self, form):
-        messages.success(self.request, "Tu reseña fue eliminada", "danger")
-        return super().form_valid(form)
-    
+    def get_queryset(self):
+        return Review.objects.filter(user_id=self.request.user.id)
     
     def get_success_url(self):
         review = Review.objects.get(pk=self.kwargs.get('pk'))
         return reverse_lazy("book_detail", kwargs={
             "pk": review.book.id
         })
+        
+    def form_valid(self, form):
+        messages.success(self.request, "Tu reseña fue eliminada", "danger")
+        return super().form_valid(form)
+    
+    
   
-    def get_queryset(self):
-        return Review.objects.filter(user_id=self.request.user.id)
- 
-@login_required
-@permission_required('library.add_review')
-def add_review(request, book_id):
-    book = get_object_or_404(Book, id=book_id)
-    form = ReviewForm(request.POST or None)
-    
-    if request.method == "POST":
-        if form.is_valid():
-            review = form.save(commit=False) # Parar el guardado automatico
-            review.book = book
-            review.user = request.user
-            review.save()
-            
-            would_recommend = form.cleaned_data.get('would_recommend')
-            if would_recommend:
-                messages.success(request, "Gracias por la reseña y recomendacion de nuestros libros 🤗")
-            else:                                    
-                messages.success(request, "Gracias por la reseña")
-            return redirect('book_detail', pk=book.id)
-        else:
-            messages.error(request, "Corrige los errores del formulario",  "danger")
-            
-    return render(request, 'library/add_review.html', {
-        "form": form,
-        "book": book
-    })
-    

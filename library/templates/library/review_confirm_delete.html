@@ -1,13 +1,19 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Eliminar review{% endblock title %}
+
+{% block page_icon %}
+  <link rel="shortcut icon" href="{% static 'icons/book.ico' %}" type="image/x-icon">
+{% endblock page_icon %}
+
 
 {% block content %}
 
   <div class="container mt-3">
     <h2>¿Estas seguro que quieres eliminar la review?</h2>
     <p class="fw-bold">{{ review.text }}</p>
-    <img class="img-thumbnail" src='{% if review.book.detail.cover_url %}{{ review.book.detail.cover_url }}{% endif %}' alt="{{ review.book.title }}" width="300">
+    <img class="img-thumbnail" src='{% if review.book.cover %}{{ review.book.cover.url }}{% endif %}' alt="Una imagen del libro: {{ review.book.title }}" width="300">
     <p>{{ review.book.title }}</p>
 
     <form method="post">

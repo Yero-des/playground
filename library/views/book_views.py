@@ -1,12 +1,15 @@
+from django.urls import reverse_lazy
+from library.forms import BookForm
 from library.models import Book
 from django.db.models import Q
 from django.contrib.auth import get_user_model
 from django.core.paginator import Paginator
 from django.contrib.auth import get_user_model
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 from django.db.models import When, Case
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import HttpResponseForbidden
+from django.contrib import messages
 
 User = get_user_model()
     
@@ -14,10 +17,10 @@ class BookListView(LoginRequiredMixin, ListView):
     model = Book
     template_name = "library/book_list.html"
     context_object_name = "books"
-    paginate_by = 8
+    paginate_by = 10
     
     def get_queryset(self):
-        queryset = super().get_queryset().order_by('-publication_date')
+        queryset = super().get_queryset().order_by('-created_at')
 
         query = self.request.GET.get('query_search')
         date_start = self.request.GET.get('start')
@@ -110,3 +113,22 @@ class BookDetailView(
                
         return context
 
+
+class BookCreateView(CreateView):
+    model = Book
+    form_class = BookForm
+    template_name = 'library/add_book.html'
+    
+    def form_valid(self, form):
+        messages.success(self.request, "Se ha agregado el nuevo libro")
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Hubo un error al guardar el libro revisa los campos", "danger")
+        return super().form_invalid(form)    
+    
+    
+    def get_success_url(self):
+        return reverse_lazy('book_list')
+    
+    

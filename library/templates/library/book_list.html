@@ -32,11 +32,11 @@
               {% if forloop.first %}
                 <div class="position-absolute top-0 start-0 bg-danger text-light fw-bold px-5 rounded-3 rounded-top-0 rounded-start-0">Recien leido</div>
                 <img
-                  src="{% if book.detail and book.detail.cover_url != '' %}{{ book.detail.cover_url }}{% else %}{% static "library/img/cover-not-found.jpg" %}{% endif %}"
+                  src="{% if book.cover %}{{ book.cover.url }}{% else %}{% static 'library/img/cover-not-found.jpg' %}{% endif %}"
                   class="card-img-top object-fit-cover h-100" alt=''>
               {% else %}
                 <img
-                  src="{% if book.detail and book.detail.cover_url != '' %}{{ book.detail.cover_url }}{% else %}{% static "library/img/cover-not-found.jpg" %}{% endif %}"
+                  src="{% if book.cover %}{{ book.cover.url }}{% else %}{% static 'library/img/cover-not-found.jpg' %}{% endif %}"
                   class="card-img-top object-fit-cover h-100" alt='Imagen referencial del libro: "{{ book.title }}"'>
               {% endif %}
             </header>
@@ -74,11 +74,12 @@
       <div class="col-6">
         <form method="get">
           <label for="searchForTitleAuthor" class="form-label text-secondary">Buscar por titulo o author</label>
-          <div class="input-group">
+          <div class="input-group">            
+            <a href="{% url 'add_book' %}" type="submit" class="btn btn-primary text-light">Agregar libro</a>
             <input type="date" name="start" class="form-control" value="{{request.GET.start}}">
             <input type="date" name="end" class="form-control" value="{{request.GET.end}}">
+            <span class="input-group-text bi bi-search bg-primary text-light"></span>
             <input type="text" name="query_search" class="form-control" id="searchForTitleAuthor" aria-describedby="searchForValue" value="{% if query_search %}{{ query_search }}{% endif %}">
-            <button type="submit" class="btn btn-primary">Enviar</button>
           </div>
         </form>
       </div>
@@ -129,7 +130,7 @@
           <div class="card shadow overflow-hidden rounded-3">
             <header class="overflow-hidden bg-gray" style="height: 15rem;">
               <img
-                src="{% if book.detail and book.detail.cover_url != '' %}{{ book.detail.cover_url }}{% else %}{% static "library/img/cover-not-found.jpg" %}{% endif %}"
+                src="{% if book.cover %}{{ book.cover.url }}{% else %}{% static 'library/img/cover-not-found.jpg' %}{% endif %}"
                 class="card-img-top object-fit-cover h-100" alt='Imagen referencial del libro: "{{ book.title }}"'>
             </header>
             <div class="card-body">

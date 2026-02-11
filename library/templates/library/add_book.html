@@ -15,17 +15,9 @@
 
     <div class="row justify-content-center">
       <div class="col-6">
-        <div class="overflow-hidden" style="height: 10rem;">
-          <img src="{% if book.cover %}{{ book.cover.url }}{% endif %}" class="object-fit-contain h-100" alt="Imagen del libro {{ book.title }}">
-        </div>
-      </div>
-    </div>
+        <h3>Agrega un nuevo libro</h3>
 
-    <div class="row justify-content-center">
-      <div class="col-6">
-        <h3>Agrega la reseña de {{ book.title }}</h3>
-
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
           {% csrf_token %}
           {{ form.as_p }}
 
