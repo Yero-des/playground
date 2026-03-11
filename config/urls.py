@@ -4,8 +4,10 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.conf import settings
 from django.conf.urls.static import static
 from library.views import CustomLoginView
+from django.views.generic import RedirectView
 
 urlpatterns = [
+    path('', RedirectView.as_view(pattern_name='tasks:list_tasks')),
     path('login/', CustomLoginView.as_view(), name="login"),
     path('logout/', LogoutView.as_view(), name="logout"),
     # path('logout/', LogoutView.as_view(next_page="registration/logout.html"), name="logout"), # Personalized next_page en caso se requiera
@@ -15,6 +17,7 @@ urlpatterns = [
     path('calculator/', include("apps.calculator.urls")),
     path("library/", include('library.urls')),
     path("documentation/", include('apps.documentation.urls')),
+    path('tasks/', include('apps.tasks.urls'))
 ]
 
 if settings.DEBUG:

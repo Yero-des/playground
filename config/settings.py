@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'apps.landing',
     'apps.calculator', 
     'apps.documentation',
+    'apps.tasks',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

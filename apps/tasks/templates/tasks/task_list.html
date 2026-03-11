@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <ul>
+    
+    {% for task in tasks %}
+      <li>({{task.completed}}) {{task.title}}</li>
+    {% endfor %}
+      
+  </ul>
+
+  <a href="{% url 'tasks:add_task' %}" class="btn btn-primary">Nueva tarea</a>
+
+{% endblock content %}
