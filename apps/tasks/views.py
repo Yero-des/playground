@@ -3,6 +3,7 @@ from django.views.generic import ListView, CreateView
 from .models import Task
 from django.urls import reverse_lazy
 from django.contrib import messages
+from .forms import TaskForm
 
 # Create your views here.
 class TaskListView(ListView):
@@ -13,13 +14,11 @@ class TaskListView(ListView):
 
 class TaskCreateView(CreateView):
     model = Task
+    form_class = TaskForm
     template_name = 'tasks/add_task.html'
-    fields = ('title', 'completed')
+    success_url = reverse_lazy('tasks:list_tasks')
     
     def form_valid(self, form):
-        messages.success(self.request, "Tarea agregada correctamnte.")
+        messages.success(self.request, "Tarea agregada correctamente.")
         return super().form_valid(form)
-    
-    def get_success_url(self):
-        return reverse_lazy('tasks:list_tasks')
     

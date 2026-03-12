@@ -2,12 +2,12 @@
 
 {% block content %}
 
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-
-    <button type="submit" class="btn btn-primary">Enviar</button>
-
-  </form>
+  <div class="container mt-3">
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+  </div>
 
 {% endblock content %}

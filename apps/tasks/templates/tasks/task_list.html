@@ -2,14 +2,18 @@
 
 {% block content %}
 
-  <ul>
+  <div class="container mt-3">
+    <ul>
     
-    {% for task in tasks %}
-      <li>({{task.completed}}) {{task.title}}</li>
-    {% endfor %}
-      
-  </ul>
-
-  <a href="{% url 'tasks:add_task' %}" class="btn btn-primary">Nueva tarea</a>
+      {% for task in tasks %}
+        <li>
+          <input type="checkbox" class="form-check-input" name="completed" id="{{task.id}}" {% if task.completed %}checked{% endif %} disabled> 
+          {{task.title}}
+        </li>
+      {% endfor %}
+    
+    </ul>
+    <a href="{% url 'tasks:add_task' %}" class="btn btn-primary">Nueva tarea</a>
+  </div>
 
 {% endblock content %}
