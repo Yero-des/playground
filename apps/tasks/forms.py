@@ -11,7 +11,7 @@ class TaskForm(forms.ModelForm):
             'completed': 'Esta completado?'
         }
         widgets = {
-            'title': forms.TextInput(attrs={
+            'title': forms.Textarea(attrs={
                 'placeholder': 'Titulo de tarea',
                 'class': 'form-control'
             }),

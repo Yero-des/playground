@@ -8,7 +8,10 @@
       {% for task in tasks %}
         <li>
           <input type="checkbox" class="form-check-input" name="completed" id="{{task.id}}" {% if task.completed %}checked{% endif %} disabled> 
-          {{task.title}}
+          <span>{{task.title}}</span>
+          <a class="icon-link icon-link-hover" style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);" href="{% url 'tasks:delete_task' pk=task.id %}">
+            <i class="bi bi-trash2-fill text-danger"></i>
+          </a>
         </li>
       {% endfor %}
     
