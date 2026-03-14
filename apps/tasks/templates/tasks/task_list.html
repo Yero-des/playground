@@ -13,6 +13,9 @@
           <a class="icon-link icon-link-hover" style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);" href="{% url 'tasks:delete_task' pk=task.id %}">
             <i class="bi bi-trash2-fill text-danger"></i>
           </a>
+          <a class="icon-link icon-link-hover" style="--bs-icon-link-transform: translate3d(0, -.125rem, 0);" href="{% url 'tasks:update_task' pk=task.id %}">
+            <i class="bi bi-pencil-square text-secondary"></i>
+          </a>
         </li>
       {% endfor %}
     

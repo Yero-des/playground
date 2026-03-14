@@ -6,7 +6,13 @@
     <form method="post">
       {% csrf_token %}
       {{ form.as_p }}
-      <button type="submit" class="btn btn-primary">Enviar</button>
+      
+      {% if is_updated %}      
+        <button type="submit" class="btn btn-secondary">Actualizar</button>
+      {% else %}
+        <button type="submit" class="btn btn-primary">Enviar</button>
+      {% endif %}
+        
     </form>
   </div>
 

@@ -1,8 +1,7 @@
 import json
-
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
-from django.views.generic import ListView, CreateView, DeleteView, View
+from django.views.generic import ListView, CreateView, DeleteView, View, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Task
 from django.urls import reverse_lazy
@@ -43,6 +42,27 @@ class TaskDeleteView(LoginRequiredMixin, DeleteView):
     def form_valid(self, form):
         content = self.object.content
         messages.info(self.request, f'Se ha borrado la tarea "{content}".')
+        return super().form_valid(form)
+    
+
+class TaskUpdateView(LoginRequiredMixin, UpdateView):
+    model = Task
+    form_class = TaskForm
+    template_name = 'tasks/add_task.html'
+    success_url = reverse_lazy('tasks:list_tasks')
+    
+    def get_queryset(self):
+        return super().get_queryset().filter(user=self.request.user)    
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'is_updated': True
+        })
+        return context
+    
+    def form_valid(self, form):
+        messages.warning(self.request, f'La tarea "{self.object.content}" se actualizo correctamente.')
         return super().form_valid(form)
     
 
