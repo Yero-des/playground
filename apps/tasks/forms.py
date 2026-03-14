@@ -5,13 +5,13 @@ class TaskForm(forms.ModelForm):
 
     class Meta:
         model = Task
-        fields = ('title', 'completed')
+        fields = ('content', 'completed')
         labels = {
-            'title': 'Titulo de la tarea',
+            'content': 'Titulo de la tarea',
             'completed': 'Esta completado?'
         }
         widgets = {
-            'title': forms.Textarea(attrs={
+            'content': forms.Textarea(attrs={
                 'placeholder': 'Titulo de tarea',
                 'class': 'form-control'
             }),

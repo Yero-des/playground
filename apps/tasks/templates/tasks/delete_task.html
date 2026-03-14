@@ -4,7 +4,7 @@
 {% block content %}
 
   <div class="container mt-3">
-    <h2>Se eliminará la tarea "{{task.title}}".</h2>
+    <h2>Se eliminará la tarea "{{task.content}}".</h2>
     <form id="deleteForm" method="post">
       {% csrf_token %}
       {{ form.as_p }}
@@ -23,6 +23,7 @@
 
       Swal.fire({
         title: "¿Estas seguro?",
+        theme: 'bootstrap-5',
         text: "Esta acción no se puede revertir",
         icon: "warning",
         showCancelButton: true,

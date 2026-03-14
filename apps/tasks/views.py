@@ -1,36 +1,71 @@
-from django.shortcuts import render
-from django.views.generic import ListView, CreateView, DeleteView
+import json
+
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, render
+from django.views.generic import ListView, CreateView, DeleteView, View
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Task
 from django.urls import reverse_lazy
 from django.contrib import messages
 from .forms import TaskForm
 
 # Create your views here.
-class TaskListView(ListView):
+class TaskListView(LoginRequiredMixin, ListView):
     model = Task
     template_name = 'tasks/task_list.html'
     context_object_name = 'tasks'
     
+    def get_queryset(self):
+        return super().get_queryset().filter(user=self.request.user)    
+    
 
-class TaskCreateView(CreateView):
+class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     form_class = TaskForm
     template_name = 'tasks/add_task.html'
     success_url = reverse_lazy('tasks:list_tasks')
     
     def form_valid(self, form):
+        form.instance.user = self.request.user
         messages.success(self.request, "Tarea agregada correctamente.")
         return super().form_valid(form)
     
 
-class TaskDeleteView(DeleteView):
+class TaskDeleteView(LoginRequiredMixin, DeleteView):
     model = Task
     template_name = 'tasks/delete_task.html'
     success_url = reverse_lazy('tasks:list_tasks')
     context_object_name = 'task'
     
+    def get_queryset(self):
+        return super().get_queryset().filter(user=self.request.user)
+    
     def form_valid(self, form):
-        title = self.object.title
-        messages.info(self.request, f'Se ha borrado la tarea "{title}".')
+        content = self.object.content
+        messages.info(self.request, f'Se ha borrado la tarea "{content}".')
         return super().form_valid(form)
     
+
+class MarkTaskView(View):
+    
+    def post(self, request, *args, **kwargs):
+        try:
+            data = json.loads(request.body)
+            task_id = data.get('taskId', '')
+            completed = str(data.get('completed', ''))
+            
+            task = get_object_or_404(Task, id=task_id)
+            task.completed = (completed == "True")
+            task.save()
+                
+            return JsonResponse({
+                'status': 'ok',
+                'object_id': task_id,
+                'completed': (completed == "True")
+            })
+            
+        except Exception as e:
+            return JsonResponse({
+                'status': 'error',
+                'messages': str(e),
+            }, status=400)
