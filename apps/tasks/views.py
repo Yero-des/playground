@@ -66,7 +66,7 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
     
 
-class MarkTaskView(View):
+class MarkTaskView(LoginRequiredMixin, View):
     
     def post(self, request, *args, **kwargs):
         try:
@@ -74,9 +74,12 @@ class MarkTaskView(View):
             task_id = data.get('taskId', '')
             completed = str(data.get('completed', ''))
             
-            task = get_object_or_404(Task, id=task_id)
+            task = get_object_or_404(Task, id=task_id, user=request.user)
             task.completed = (completed == "True")
             task.save()
+            
+            if task.user != request.user:
+                return JsonResponse({'status': 'forbidden'}, status=403)
                 
             return JsonResponse({
                 'status': 'ok',
