@@ -8,7 +8,8 @@ from django.views.generic import RedirectView, TemplateView
 
 urlpatterns = [
     # path('', RedirectView.as_view(pattern_name='tests')),
-    path('', RedirectView.as_view(pattern_name='tasks:list_tasks')),
+    # path('', RedirectView.as_view(pattern_name='tasks:list_tasks')),
+    path('', RedirectView.as_view(pattern_name='documentation:index')),
     path('tests/', TemplateView.as_view(template_name='tests.html'), name='tests'),
     path('login/', CustomLoginView.as_view(), name="login"),
     path('logout/', LogoutView.as_view(), name="logout"),

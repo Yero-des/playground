@@ -5,10 +5,6 @@ from library.models import Book
 from django.http import HttpResponse
 from django.views import View
 
-# Create your views here.
-class TestView(TemplateView):
-    template_name = "documentation/test.html"
-    
 class TestListView(ListView):
     model = Book
     template_name = "documentation/book_list.html"

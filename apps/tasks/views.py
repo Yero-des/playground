@@ -17,7 +17,7 @@ class TaskListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)    
     
-
+ 
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     form_class = TaskForm
