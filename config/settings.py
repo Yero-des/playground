@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'apps.calculator', 
     'apps.documentation',
     'apps.tasks',
+    'apps.tests',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
