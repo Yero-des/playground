@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Videos{% endblock title %}
+
+{% block content %}
+
+  <div class="container-fluid p-3">
+    <h1 class="fs-1">Videos</h1>
+
+    <div class="row row-cols-1 row-cols-md-4 p-3">
+
+      {% for video in videos %}
+  
+        <div class="col">
+          <div class="card shadow">
+            <video src="{{ video.url.url }}" class="card-img-top border-bottom border-secondary border-3" loop autoplay></video>
+            <div class="card-body">
+              <h3 class="card-title">{{ video.title }}</h3>
+              <p class="card-text">{{ video.description }}</p>
+            </div>
+          </div>
+        </div>
+  
+      {% endfor %}
+      
+
+    </div>
+    
+  </div>
+
+{% endblock content %}
