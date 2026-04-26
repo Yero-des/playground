@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Agregar review{% endblock title %}
+
+{% block page_icon %}
+  <link rel="shortcut icon" href="{% static 'icons/book.ico' %}" type="image/x-icon">
+{% endblock page_icon %}
+
+{% block content %}
+
+  {% include "includes/page_img.html" %}
+
+  <div class="container">
+
+    <div class="row justify-content-center">
+      <div class="col-6">
+        <h3>Agrega un nuevo libro</h3>
+
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ form.as_p }}
+
+          <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+{% endblock content %}

@@ -1,3 +1,29 @@
-/venv
+# Entornos virtuales
+venv/
+env/
+
+# Modulos npm
+node_modules/
+
+# Archivos de Python compilados
 __pycache__/
+/__pycache__/
+*.py[cod]
+*py.class
+
+# Archivos de configuración del entorno
+.env
+*.env
+
+# Archivos de bases de datos locales
+db.sqlite3
+
+# Archivos de logs
+*.log
+
+# Archivos de Django migrations cache
+**/migrations/__pycache__/
 *.pyc
+
+# Archivos de Multimedia
+media/

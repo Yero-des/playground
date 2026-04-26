@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <div class="container mt-3">
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      
+      {% if is_updated %}      
+        <button type="submit" class="btn btn-secondary">Actualizar</button>
+      {% else %}
+        <button type="submit" class="btn btn-primary">Enviar</button>
+      {% endif %}
+        
+    </form>
+  </div>
+
+{% endblock content %}
